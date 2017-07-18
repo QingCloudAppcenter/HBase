@@ -1,0 +1,6 @@
+[template]
+src = "hdfs-monitor.py.tmpl"
+dest = "/opt/hadoop/sbin/hdfs-monitor.py"
+keys = [
+  "/",
+]

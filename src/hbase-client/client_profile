@@ -1,0 +1,4 @@
+export JAVA_HOME=/usr/jdk
+export HADOOP_HOME=/opt/hadoop
+export PHOENIX_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
+export PATH=$JAVA_HOME/bin:$PATH

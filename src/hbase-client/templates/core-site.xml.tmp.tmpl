@@ -1,0 +1,4 @@
+{
+  {{range $dir := lsdir "/hosts/hbase-hdfs-master/"}}{{$node := printf "/hosts/hbase-hdfs-master/%s/node_id" $dir}}
+  "fs.defaultFS": "hdfs://{{getv $node}}:9000"{{end}}
+}

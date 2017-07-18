@@ -1,0 +1,13 @@
+{
+  "hbase.zookeeper.quorum": "{{if exists "/links/zk_service/cluster/endpoints/client/port"}}{{$port := getv "/links/zk_service/cluster/endpoints/client/port"}}{{range $i, $host := ls (printf "/links/zk_service/hosts")}}{{$ip := printf "/links/zk_service/hosts/%s/ip" $host}}{{if $i}},{{end}}{{getv $ip}}:{{$port}}{{end}}{{else}}{{range $i, $host := ls (printf "/links/zk_service/hosts")}}{{$ip := printf "/links/zk_service/hosts/%s/ip" $host}}{{if $i}},{{end}}{{getv $ip}}:2181{{end}}{{end}}",
+  "hbase.zookeeper.property.clientPort": "{{if exists "/links/zk_service/cluster/endpoints/client/port"}}{{getv "/links/zk_service/cluster/endpoints/client/port"}}{{else}}2181{{end}}",
+  "zookeeper.znode.parent": "/hbase/{{getv "/cluster/cluster_id"}}",
+  "hbase.rootdir": "{{range $dir := lsdir "/hosts/hbase-hdfs-master/"}}{{$node := printf "/hosts/hbase-hdfs-master/%s/node_id" $dir}}hdfs://{{getv $node}}:9000/hbase{{end}}"
+  {{if exists "/env/qingcloud.phoenix.on.hbase.enable"}}{{$phoenix := getv "/env/qingcloud.phoenix.on.hbase.enable"}}
+    {{if eq $phoenix "true"}}
+        ,"phoenix.transactions.enabled": "{{getv "/env/phoenix.transactions.enabled"}}",
+        "hbase.regionserver.wal.codec": "org.apache.hadoop.hbase.regionserver.wal.IndexedWALEditCodec",
+        "data.tx.snapshot.dir": "/tephra/snapshots"
+    {{end}}
+  {{end}}
+}

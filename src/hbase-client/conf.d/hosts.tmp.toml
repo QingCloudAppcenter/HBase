@@ -1,0 +1,7 @@
+[template]
+src = "hosts.tmp.tmpl"
+dest = "/opt/hbase/conf/hosts.tmp"
+keys = [
+  "/",
+]
+reload_cmd = "/usr/bin/python /opt/hbase/bin/reload-hosts.py"

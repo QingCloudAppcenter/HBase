@@ -1,0 +1,7 @@
+[template]
+src = "hbase-site.xml.tmp.tmpl"
+dest = "/opt/hbase/conf/hbase-site.xml.tmp"
+keys = [
+  "/",
+]
+reload_cmd = "/usr/bin/python /opt/hbase/bin/reload-xml.py /opt/hbase/conf/hbase-site.xml"

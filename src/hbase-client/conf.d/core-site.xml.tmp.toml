@@ -1,0 +1,7 @@
+[template]
+src = "core-site.xml.tmp.tmpl"
+dest = "/opt/hadoop/etc/hadoop/core-site.xml.tmp"
+keys = [
+  "/",
+]
+reload_cmd = "/usr/bin/python /opt/hbase/bin/reload-xml.py /opt/hadoop/etc/hadoop/core-site.xml"
