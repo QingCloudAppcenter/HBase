@@ -18,6 +18,7 @@ scp -r hbase-client/reload-xml.py root@$hbase_client:/opt/hbase/bin/
 scp -r hbase-client/reload-hosts.py root@$hbase_client:/opt/hbase/bin/
 scp -r hbase-client/client_profile root@$hbase_client:/tmp/
 ssh root@$hbase_client "cat /tmp/client_profile >> /etc/profile"
+ssh root@$hbase_client "cat /tmp/client_profile >> /root/.bashrc"
 
 echo "cp hbase-master conf to $hbase_master"
 scp -r hbase-master/conf.d/* root@$hbase_master:/etc/confd/conf.d/
