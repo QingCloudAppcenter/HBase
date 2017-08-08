@@ -58,5 +58,5 @@ ssh root@$image_ip "source /etc/profile"
 scp $package_dir/app-agent-linux-amd64.tar.gz root@$image_ip:/tmp/
 ssh root@$image_ip "cd /tmp/;tar -xzvf app-agent-linux-amd64.tar.gz;cd app-agent-linux-amd64;sh install.sh;rm -rf /tmp/app-agent-linux-amd64*"
 
-
+ssh root@image_ip "sed -i '/^exit 0$/i\rm -rf /tmp/hostname' /etc/rc.local"
 
