@@ -29,7 +29,7 @@ ssh root@$hbase_master "touch /opt/hbase/bin/health-action.sh;chmod +x /opt/hbas
 ssh root@$hbase_master "touch /opt/hbase/bin/hbase-monitor.py;chmod +x /opt/hbase/bin/hbase-monitor.py"
 ssh root@$hbase_master "touch /opt/hbase/bin/restart-hbase.sh;chmod +x /opt/hbase/bin/restart-hbase.sh"
 ssh root@$hbase_master "touch /opt/hbase/bin/stop.sh;chmod +x /opt/hbase/bin/stop.sh"
-scp hbase-master/hbase-env.sh root@$hbase_master:/opt/hbase/conf/hbasget resource price failede-env.sh
+scp hbase-master/hbase-env.sh root@$hbase_master:/opt/hbase/conf/hbase-env.sh
 scp hbase-master/restart-hbase.sh root@$hbase_master:/opt/hbase/bin/restart-hbase.sh
 scp hbase-master/stop.sh root@$hbase_master:/opt/hbase/bin/stop.sh
 scp hbase-master/tephra-env.sh root@$hbase_master:/opt/hbase/bin/tephra-env.sh
@@ -60,6 +60,7 @@ scp -r hbase-slave/conf.d/* root@$hbase_slave:/etc/confd/conf.d/
 scp -r hbase-slave/templates/* root@$hbase_slave:/etc/confd/templates/
 ssh root@$hbase_slave "touch /opt/hbase/bin/hbase-monitor.py;chmod +x /opt/hbase/bin/hbase-monitor.py"
 ssh root@$hbase_slave "touch /opt/hbase/bin/health-action.sh;chmod +x /opt/hbase/bin/health-action.sh"
+ssh root@$hbase_slave "touch /opt/hbase/bin/reload-hdfs-site.sh;chmod +x /opt/hbase/bin/reload-hdfs-site.sh"
 ssh root@$hbase_slave "touch /opt/hbase/bin/health-check.sh;chmod +x /opt/hbase/bin/health-check.sh"
 ssh root@$hbase_slave "touch /opt/hadoop/sbin/start-hadoop-slave.sh;chmod +x /opt/hadoop/sbin/start-hadoop-slave.sh"
 ssh root@$hbase_slave "touch /opt/hbase/bin/start-regionserver.sh;chmod +x /opt/hbase/bin/start-regionserver.sh"
@@ -67,6 +68,7 @@ scp hbase-slave/hadoop-env.sh root@$hbase_slave:/opt/hadoop/etc/hadoop/hadoop-en
 scp hbase-slave/hbase-env.sh root@$hbase_slave:/opt/hbase/conf/hbase-env.sh
 scp hbase-slave/health-action.sh root@$hbase_slave:/opt/hbase/bin/health-action.sh
 scp hbase-slave/health-check.sh root@$hbase_slave:/opt/hbase/bin/health-check.sh
+scp hbase-slave/reload-hdfs-site.sh root@$hbase_slave:/opt/hbase/bin/reload-hdfs-site.sh
 scp hbase-slave/start-hadoop-slave.sh root@$hbase_slave:/opt/hadoop/sbin/start-hadoop-slave.sh
 scp hbase-slave/start-regionserver.sh root@$hbase_slave:/opt/hbase/bin/start-regionserver.sh
 scp forbidden_ports root@$hbase_slave:/tmp/

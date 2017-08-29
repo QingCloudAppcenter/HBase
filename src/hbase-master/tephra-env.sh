@@ -7,7 +7,7 @@ export HBASE_HOME=/opt/hbase
 export HADOOP_HOME=/opt/hadoop
 export IDENT_STRING=hbase
 export HOSTNAME=`hostname`
-export LOG_DIR=/bigdata1/hbase/logs
-export PID_DIR=/bigdata1/hbase/pids
+export LOG_DIR=/data/hbase/logs
+export PID_DIR=/data/hbase/pids
 export OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"
 export OPTS="$OPTS -Xmx1G -XX:+UseConcMarkSweepGC"

@@ -3,8 +3,8 @@
 ulimit -u 65535
 ulimit -n 65535
 export JAVA_HOME=/usr/jdk
-export HBASE_LOG_DIR=/bigdata1/hbase/logs
-export HBASE_PID_DIR=/bigdata1/hbase/pids
+export HBASE_LOG_DIR=/data/hbase/logs
+export HBASE_PID_DIR=/data/hbase/pids
 export HBASE_CONF_PATH=/opt/hbase/conf
 export HBASE_HOME=/opt/hbase
 export HADOOP_HOME=/opt/hadoop
