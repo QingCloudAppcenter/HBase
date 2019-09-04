@@ -1,0 +1,18 @@
+import sys
+
+HBASE_MASTER = "hbase-master"
+HBASE_HDFS_MASTER = "hbase-hdfs-master"
+HBASE_SLAVE = "hbase-slave"
+
+if __name__ == '__main__':
+    role = '{{getv "/host/role"}}'
+    delete_nodes = 0
+    {{if exists "/deleting-hosts"}}
+        delete_nodes = int({{len (gets "/deleting-hosts/*")}})
+    {{end}}
+    if delete_nodes == 0:
+        sys.exit(0)
+    else:
+        if role == HBASE_SLAVE and delete_nodes == 1:
+            sys.exit(0)
+        sys.exit(1)

@@ -1,0 +1,7 @@
+[template]
+src = "restart-dfs.sh.tmpl"
+dest = "/opt/hadoop/sbin/restart-dfs.sh"
+mode = "0777"
+keys = [
+  "/",
+]

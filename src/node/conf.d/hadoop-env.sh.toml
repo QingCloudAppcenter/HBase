@@ -1,0 +1,6 @@
+[template]
+src = "hadoop-env.sh.tmpl"
+dest = "/opt/hadoop/etc/hadoop/hadoop-env.sh"
+keys = [
+  "/",
+]
