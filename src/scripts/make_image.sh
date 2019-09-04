@@ -1,4 +1,6 @@
 #!/bin/sh
+set -x
+set -e
 
 HOME_DIR=/opt
 
@@ -16,10 +18,10 @@ HBASE_DIR=hbase-2.0.6
 PHOENIX_DIR=apache-phoenix-5.0.0-HBase-2.0-bin
 
 cd ${HOME_DIR}
-rm -rf ${HADOOP_PACKAGE} ${HBASE_PACKAGE}
+rm -rf ${HADOOP_PACKAGE} ${HBASE_PACKAGE} ${PHOENIX_PACKAGE}
 wget ${URL}/${HBASE_PACKAGE}
 wget ${URL}/${HADOOP_PACKAGE}
-wget http://www.apache.org/dyn/closer.lua/phoenix/apache-phoenix-5.0.0-HBase-2.0/bin/apache-phoenix-5.0.0-HBase-2.0-bin.tar.gz
+wget http://mirror.bit.edu.cn/apache/phoenix/apache-phoenix-5.0.0-HBase-2.0/bin/apache-phoenix-5.0.0-HBase-2.0-bin.tar.gz
 
 rm -rf ${HADOOP_DIR} hadoop; rm -rf ${HBASE_DIR} hbase; rm -rf ${PHOENIX_DIR} phoenix
 tar -xzvf ${HADOOP_PACKAGE}; tar -xzvf ${HBASE_PACKAGE}; tar -xzvf ${PHOENIX_PACKAGE}
@@ -46,7 +48,8 @@ wget ${URL}/lzop; mv lzop /usr/local/bin/lzop; rm -rf /usr/bin/lzop; ln -s /usr/
 wget ${URL}/hadoop-lzo-0.4.20.jar; mv hadoop-lzo-0.4.20.jar hadoop/share/hadoop/common/
 
 # jdk
-cd /usr/; wget ${URL}/${JDK_PACKAGE}; tar -xzvf ${JDK_PACKAGE}; ln -s ${JDK_DIR} jdk; rm -rf ${JDK_PACKAGE}; cd ${HOME_DIR}
+cd /usr/; rm -rf ${JDK_PACKAGE} jdk; wget ${URL}/${JDK_PACKAGE}; tar -xzvf ${JDK_PACKAGE};
+ln -s ${JDK_DIR} jdk; rm -rf ${JDK_PACKAGE}; cd ${HOME_DIR}
 
 # app agent
 wget http://appcenter-docs.qingcloud.com/developer-guide/scripts/app-agent-linux-amd64.tar.gz
@@ -70,7 +73,6 @@ echo "net.ipv6.conf.lo.disable_ipv6=1" >> /etc/sysctl.conf
 
 echo "export JAVA_HOME=/usr/jdk" >> /etc/profile
 echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/profile
-source /etc/profile
 
 sed -i '/^exit 0$/i\rm -rf /tmp/hostname' /etc/rc.local
 sed -i '/^exit 0$/i\rm -rf /data/hadoop/pids' /etc/rc.local
