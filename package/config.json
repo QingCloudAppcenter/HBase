@@ -1,0 +1,585 @@
+{
+  "type": "array",
+  "properties": [
+    {
+      "key": "cluster",
+      "description": "HBase cluster properties",
+      "type": "array",
+      "properties": [
+        {
+          "key": "name",
+          "label": "Name",
+          "description": "The name of the HBase service",
+          "type": "string",
+          "default": "HBase",
+          "required": "no"
+        },
+        {
+          "key": "description",
+          "label": "Description",
+          "description": "The description of the HBase service",
+          "type": "string",
+          "default": "",
+          "required": "no"
+        },
+        {
+          "key": "vxnet",
+          "label": "VxNet",
+          "description": "The vxnet that the HBase cluster will join",
+          "type": "string",
+          "default": "",
+          "required": "yes"
+        },
+        {
+          "key": "zk_service",
+          "label": "Zookeeper Cluster",
+          "description": "The zookeeper that the HBase cluster will use",
+          "type": "service",
+          "tag": ["ZK", "ZooKeeper"],
+          "default": "",
+          "required": "yes"
+        },
+        {
+          "key": "hbase-client",
+          "description": "HBase client properties",
+          "label": "HBase Client",
+          "type": "array",
+          "properties": [
+            {
+              "key": "cpu",
+              "label": "CPU",
+              "description": "CPUs of each node",
+              "type": "integer",
+              "default": 2,
+              "range": [1,2,4,8,16,32],
+              "required": "yes"
+            },
+            {
+              "key": "count",
+              "label": "Count",
+              "description": "Number of nodes for the cluster to create",
+              "type": "integer",
+              "default": 1,
+              "min": 0,
+              "max": 1,
+              "required": "yes"
+            },
+            {
+              "key": "memory",
+              "label": "Memory",
+              "description": "Memory of each node",
+              "type": "integer",
+              "default": 4096,
+              "range": [2048, 4096, 6144, 8192, 12288, 16384, 24576, 32768, 40960, 49152, 65536],
+              "required": "yes"
+            },
+            {
+              "key": "instance_class",
+              "label": "Instance class",
+              "description":"The instance type for the cluster to run",
+              "type":"integer",
+              "default":0,
+              "range": [0,1],
+              "required":"yes"
+            },
+            {
+              "key": "volume_class",
+              "label": "Volume class",
+              "description":"The volume type for each instance",
+              "type":"integer",
+              "default":0,
+              "range": [0,3],
+              "required":"yes"
+            },
+            {
+              "key": "volume_size",
+              "label": "Volume size",
+              "description":"The volume size for each instance",
+              "type":"integer",
+              "default":10,
+              "required":"yes"
+            }
+          ]
+        },
+        {
+          "key": "hbase-master",
+          "description": "HBase master properties",
+          "label": "HBase Master",
+          "type": "array",
+          "properties": [
+            {
+              "key": "cpu",
+              "label": "CPU",
+              "description": "CPUs of each node",
+              "type": "integer",
+              "default": 2,
+              "range": [1,2,4,8,16,32],
+              "required": "yes"
+            },
+            {
+              "key": "memory",
+              "label": "Memory",
+              "description": "Memory of each node",
+              "type": "integer",
+              "default": 4096,
+              "range": [2048, 4096, 6144, 8192, 12288, 16384, 24576, 32768, 40960, 49152, 65536],
+              "required": "yes"
+            },
+            {
+              "key": "instance_class",
+              "label": "Instance class",
+              "description":"The instance type for the cluster to run",
+              "type":"integer",
+              "default":0,
+              "range": [0,1],
+              "required":"yes"
+            },
+            {
+              "key": "volume_class",
+              "label": "Volume class",
+              "description":"The volume type for each instance",
+              "type":"integer",
+              "default":0,
+              "range": [0,3],
+              "required":"yes"
+            },
+            {
+              "key": "volume_size",
+              "label": "Volume size",
+              "description":"The volume size for each instance",
+              "type":"integer",
+              "default":10,
+              "required":"yes"
+            }
+          ]
+        },
+        {
+          "key": "hbase-hdfs-master",
+          "label": "HBase HDFS Master",
+          "description": "Hadoop master properties",
+          "type": "array",
+          "properties": [
+            {
+              "key": "cpu",
+              "label": "CPU",
+              "description": "CPUs of each node",
+              "type": "integer",
+              "default": 2,
+              "range": [1,2,4,8,16,32],
+              "required": "yes"
+            },
+            {
+              "key": "memory",
+              "label": "Memory",
+              "description": "Memory of each node",
+              "type": "integer",
+              "default": 4096,
+              "range": [2048, 4096, 6144, 8192, 12288, 16384, 24576, 32768, 40960, 49152, 65536],
+              "required": "yes"
+            },
+            {
+              "key": "instance_class",
+              "label": "Instance class",
+              "description": "The instance type for the cluster to run",
+              "type": "integer",
+              "default": 0,
+              "range": [0,1],
+              "required": "yes"
+            },
+            {
+              "key": "volume_class",
+              "label": "Volume class",
+              "description": "The volume type for each instance",
+              "type": "integer",
+              "default": 0,
+              "range": [0,3],
+              "required": "yes"
+            },
+            {
+              "key": "volume_size",
+              "label": "Volume size",
+              "description": "The volume size for each instance",
+              "type": "integer",
+              "default": 10,
+              "required": "yes"
+            }
+          ]
+        },
+        {
+          "key": "hbase-slave",
+          "label": "HBase Slave",
+          "description": "HBase slave properties",
+          "type": "array",
+          "properties": [
+            {
+              "key": "cpu",
+              "label": "CPU",
+              "description": "CPUs of each node",
+              "type": "integer",
+              "default": 2,
+              "range": [1,2,4,8,16,32],
+              "required": "yes"
+            },
+            {
+              "key": "memory",
+              "label": "Memory",
+              "description": "Memory of each node",
+              "type": "integer",
+              "default": 4096,
+              "range": [2048, 4096, 6144, 8192, 12288, 16384, 24576, 32768, 40960, 49152, 65536],
+              "required": "yes"
+            },
+            {
+              "key": "count",
+              "label": "Count",
+              "description": "Number of nodes for the cluster to create",
+              "type": "integer",
+              "default": 3,
+              "min": 2,
+              "max": 200,
+              "required": "yes"
+            },
+            {
+              "key": "instance_class",
+              "label": "Instance class",
+              "description": "The instance type for the cluster to run",
+              "type": "integer",
+              "default": 0,
+              "range": [0,1],
+              "required": "yes"
+            },
+            {
+              "key": "volume_class",
+              "label": "Volume class",
+              "description": "The volume type for each instance",
+              "type": "integer",
+              "default": 0,
+              "range": [0,3],
+              "required": "yes"
+            },
+            {
+              "key": "volume_size",
+              "label": "Volume size",
+              "description": "The volume size for each instance",
+              "type": "integer",
+              "default": 30,
+              "required": "yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "env",
+      "description": "HBase service properties",
+      "type": "array",
+      "properties": [
+        {
+          "key": "fs.trash.interval",
+          "label": "fs.trash.interval",
+          "description": "Number of minutes after which the checkpoint gets deleted. If zero, the trash feature is disabled.",
+          "type": "integer",
+          "default": 1440,
+          "min": 0,
+          "required":"no"
+        },
+        {
+          "key": "dfs.replication",
+          "label": "dfs.replication",
+          "description": "Default block replication.",
+          "type": "integer",
+          "default": 2,
+          "min": 1,
+          "max": 10,
+          "required":"no"
+        },
+        {
+          "key": "dfs.namenode.handler.count",
+          "label": "dfs.namenode.handler.count",
+          "description": "The number of server threads for the namenode.",
+          "type": "integer",
+          "default": 10,
+          "min": 4,
+          "max": 200,
+          "required":"no"
+        },
+        {
+          "key": "dfs.datanode.handler.count",
+          "label": "dfs.datanode.handler.count",
+          "description": "The number of server threads for the datanode.",
+          "type": "integer",
+          "default": 10,
+          "min": 4,
+          "max": 200,
+          "required":"no"
+        },
+        {
+          "key": "hbase.regionserver.handler.count",
+          "label": "hbase.regionserver.handler.count",
+          "description": "Count of RPC Listener instances spun up on RegionServers.",
+          "type": "integer",
+          "default": 30,
+          "min": 10,
+          "max": 200,
+          "required":"no"
+        },
+        {
+          "key": "hbase.master.handler.count",
+          "label": "hbase.master.handler.count",
+          "description": "Count of RPC Listener instances spun up on Master.",
+          "type": "integer",
+          "default": 25,
+          "min": 10,
+          "max": 200,
+          "required":"no"
+        },
+        {
+          "key": "zookeeper.session.timeout",
+          "label": "zookeeper.session.timeout",
+          "description": "ZooKeeper session timeout in milliseconds.",
+          "type": "number",
+          "min": 1000,
+          "max": 3600000,
+          "default": 60000,
+          "required":"no"
+        },
+        {
+          "key": "hbase.hregion.majorcompaction",
+          "label": "hbase.hregion.majorcompaction",
+          "description": "The time (in miliseconds) between 'major' compactions of all HStoreFiles in a region. If zero, the auto majorcompaction is disabled.",
+          "type": "integer",
+          "default": 0,
+          "min": 0,
+          "max": 2419200000,
+          "required":"no"
+        },
+        {
+          "key": "hbase.hstore.blockingStoreFiles",
+          "label": "hbase.hstore.blockingStoreFiles",
+          "description": "If more than this number of StoreFiles in any one Store then updates are blocked for this HRegion until a compaction is completed.",
+          "type": "number",
+          "min": 1,
+          "max": 1000000,
+          "default": 1000000,
+          "required":"no"
+        },
+        {
+          "key": "hbase.regionserver.optionalcacheflushinterval",
+          "label": "hbase.regionserver.optionalcacheflushinterval",
+          "description": "Maximum amount of time an edit lives in memory before being automatically flushed. Default 1 hour. Set it to 0 to disable automatic flushing.",
+          "type": "integer",
+          "default": 0,
+          "min": 0,
+          "max": 86400000,
+          "required":"no"
+        },
+        {
+          "key": "hfile.block.cache.size",
+          "label": "hfile.block.cache.size",
+          "description": "Percentage of maximum heap (-Xmx setting) to allocate to block cache used by HFile/StoreFile. Note: hbase.regionserver.global.memstore.size + hfile.block.cache.size <= 0.8.",
+          "type": "number",
+          "min": 0,
+          "max": 0.8,
+          "default": 0.4,
+          "required":"no"
+        },
+        {
+          "key": "hbase.regionserver.global.memstore.size",
+          "label": "hbase.regionserver.global.memstore.size",
+          "description": "Maximum size of all memstores in a region server before new updates are blocked and flushes are forced. Note: hbase.regionserver.global.memstore.size + hfile.block.cache.size <= 0.8.",
+          "type": "number",
+          "min": 0,
+          "max": 0.8,
+          "default": 0.4,
+          "required":"no"
+        },
+        {
+          "key": "hfile.index.block.max.size",
+          "label": "hfile.index.block.max.size",
+          "description": "When block index grows to this size, the block is written out and a new block is started.",
+          "type": "number",
+          "min": 1,
+          "max": 13107200,
+          "default": 131072,
+          "required":"no"
+        },
+        {
+          "key": "hbase.hregion.max.filesize",
+          "label": "hbase.hregion.max.filesize",
+          "description": "Maximum HStoreFile size.",
+          "type": "number",
+          "min": 1,
+          "max": 107374182400,
+          "default": 10737418240,
+          "required":"no"
+        },
+        {
+          "key": "hbase.master.logcleaner.ttl",
+          "label": "hbase.master.logcleaner.ttl",
+          "description": "Maximum time a WAL can stay in the .oldlogdir directory, after which it will be cleaned by a Master thread.",
+          "type": "number",
+          "default": 600000,
+          "min": 1,
+          "max": 86400000,
+          "required":"no"
+        },
+        {
+          "key": "hbase.ipc.server.callqueue.handler.factor",
+          "label": "hbase.ipc.server.callqueue.handler.factor",
+          "description": "Factor to determine the number of call queues. A value of 0 means a single queue shared between all the handlers. A value of 1 means that each handler has its own queue.",
+          "type": "number",
+          "min": 0,
+          "max": 1,
+          "default": 0.1,
+          "required":"no"
+        },
+        {
+          "key": "hbase.ipc.server.callqueue.read.ratio",
+          "label": "hbase.ipc.server.callqueue.read.ratio",
+          "description": "Split the call queues into read and write queues. The specified interval (which should be between 0.0 and 1.0) will be multiplied by the number of call queues.",
+          "type": "number",
+          "min": 0,
+          "max": 1,
+          "default": 0,
+          "required":"no"
+        },
+        {
+          "key": "hbase.ipc.server.callqueue.scan.ratio",
+          "label": "hbase.ipc.server.callqueue.scan.ratio",
+          "description": "Given the number of read call queues, calculated from the total number of call queues multiplied by the callqueue.read.ratio, the scan.ratio property will split the read call queues into small-read and long-read queues.",
+          "type": "number",
+          "min": 0,
+          "max": 1,
+          "default": 0,
+          "required":"no"
+        },
+        {
+          "key": "hbase.regionserver.msginterval",
+          "label": "hbase.regionserver.msginterval",
+          "description": "Interval between messages from the RegionServer to Master in milliseconds.",
+          "type": "integer",
+          "min": 1000,
+          "max": 20000,
+          "default": 3000,
+          "required":"no"
+        },
+        {
+          "key": "hbase.regionserver.logroll.period",
+          "label": "hbase.regionserver.logroll.period",
+          "description": "Period at which we will roll the commit log regardless of how many edits it has.",
+          "type": "number",
+          "min": 60000,
+          "max": 86400000,
+          "default": 3600000,
+          "required":"no"
+        },
+        {
+          "key": "hbase.regionserver.regionSplitLimit",
+          "label": "hbase.regionserver.regionSplitLimit",
+          "description": "Limit for the number of regions after which no more region splitting should take place.",
+          "type": "integer",
+          "min": 1,
+          "max": 2000,
+          "default": 1000,
+          "required":"no"
+        },
+        {
+          "key": "hbase.balancer.period",
+          "label": "hbase.balancer.period",
+          "description": "Period at which the region balancer runs in the Master.",
+          "type": "number",
+          "default": 300000,
+          "min":  60,
+          "max": 86400000,
+          "required":"no"
+        },
+        {
+          "key": "hbase.regions.slop",
+          "label": "hbase.regions.slop",
+          "description": "Rebalance if any regionserver has average + (average * slop) regions.",
+          "type": "number",
+          "min": 0,
+          "max": 1,
+          "default": 0.001,
+          "required":"no"
+        },
+        {
+          "key": "io.storefile.bloom.block.size",
+          "label": "io.storefile.bloom.block.size",
+          "description": "The size in bytes of a single block (\"chunk\") of a compound Bloom filter.",
+          "type": "number",
+          "min": 1,
+          "max": 1310720,
+          "default": 131072,
+          "required":"no"
+        },
+        {
+          "key": "hbase.rpc.timeout",
+          "label": "hbase.rpc.timeout",
+          "description": "This is for the RPC layer to define how long (millisecond) HBase client applications take for a remote call to time out.",
+          "type": "number",
+          "min": 1000,
+          "max": 3600000,
+          "default": 60000,
+          "required":"no"
+        },
+        {
+          "key": "hbase.column.max.version",
+          "label": "hbase.column.max.version",
+          "description": "New column family descriptors will use this value as the default number of versions to keep.",
+          "type": "integer",
+          "min": 1,
+          "max": 1000,
+          "default": 1,
+          "required":"no"
+        },
+        {
+          "key": "hbase.security.authorization",
+          "label": "hbase.security.authorization",
+          "description": "Enable the security authorization of HBase or not",
+          "type": "string",
+          "default": "false",
+          "range": ["true", "false"],
+          "required":"no"
+        },
+        {
+          "key": "qingcloud.hbase.major.compact.hour",
+          "label": "qingcloud.hbase.major.compact.hour",
+          "description": "Make major compaction at this time, -1 to disable",
+          "type": "integer",
+          "min": -1,
+          "max": 24,
+          "default": 3,
+          "required":"no"
+        },
+        {
+          "key": "qingcloud.phoenix.on.hbase.enable",
+          "label": "qingcloud.phoenix.on.hbase.enable",
+          "description": "Enable phoenix on this cluster or not",
+          "type": "string",
+          "default": "false",
+          "range": ["true", "false"],
+          "required":"no"
+        },
+        {
+          "key": "phoenix.functions.allowUserDefinedFunctions",
+          "label": "phoenix.functions.allowUserDefinedFunctions",
+          "description": "Enable phoenix udf or not",
+          "type": "string",
+          "default": "false",
+          "range": ["true", "false"],
+          "required":"no"
+        },
+        {
+          "key": "phoenix.transactions.enabled",
+          "label": "phoenix.transactions.enabled",
+          "description": "Enable phoenix transations or not",
+          "type": "string",
+          "default": "false",
+          "range": ["true", "false"],
+          "required":"no"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,420 @@
+{
+    "name": {{cluster.name}},
+    "description": {{cluster.description}},
+    "vxnet": {{cluster.vxnet}},
+    "links": {
+        "zk_service": {{cluster.zk_service}}
+    },
+    "nodes": [
+    {
+        "role": "hbase-client",
+        "user_access": true,
+        "container": {
+            "type": "kvm",
+            "image": "img-8ibi10kt",
+            "zone": "pek3a"
+        },
+        "count": {{cluster.hbase-client.count}},
+        "cpu": {{cluster.hbase-client.cpu}},
+        "memory": {{cluster.hbase-client.memory}},
+        "volume": {
+            "size": {{cluster.hbase-client.volume_size}},
+            "mount_point": "/data",
+            "filesystem": "ext4",
+            "class": {{cluster.hbase-client.volume_class}}
+        },
+        "instance_class": {{cluster.hbase-client.instance_class}},
+        "passphraseless": "ssh-dsa",
+        "advanced_actions": ["change_vxnet", "scale_horizontal"],
+        "services": {
+            "start": {
+                "cmd": "echo 'start'"
+            },
+            "stop": {
+                "cmd": "echo 'stop'"
+            },
+            "scale_out": {
+                "cmd": "echo 'scale_out'"
+            },
+            "scale_in": {
+                "cmd": "echo 'scale_in'"
+            }
+        }
+    },
+    {
+        "role": "hbase-master",
+        "container": {
+            "type": "lxc",
+            "image": "img-rmnpvv20",
+            "zone": "pek3a"
+        },
+        "count": 1,
+        "cpu": {{cluster.hbase-master.cpu}},
+        "memory": {{cluster.hbase-master.memory}},
+        "volume": {
+            "size": {{cluster.hbase-master.volume_size}},
+            "mount_point": "/data",
+            "filesystem": "ext4",
+            "class": {{cluster.hbase-master.volume_class}}
+        },
+        "instance_class": {{cluster.hbase-master.instance_class}},
+        "passphraseless": "ssh-dsa",
+        "advanced_actions": ["change_vxnet"],
+        "services": {
+            "start": {
+                "order": 2,
+                "cmd": "USER=root /opt/hbase/bin/start.sh;echo balance_switch true | /opt/hbase/bin/hbase shell"
+            },
+            "stop": {
+                "order": 1,
+                "cmd": "USER=root echo balance_switch false | /opt/hbase/bin/hbase shell;/opt/hbase/bin/stop.sh"
+            },
+            "scale_out": {
+                "order": 2,
+                "nodes_to_execute_on": 1,
+                "cmd": "USER=root echo balance_switch false | /opt/hbase/bin/hbase shell;/opt/hbase/bin/start-hbase.sh;echo balance_switch true | /opt/hbase/bin/hbase shell"
+            },
+            "destroy": {
+                "order": 2,
+                "cmd": "USER=root /usr/bin/python /opt/hadoop/sbin/destroy.py"
+            }
+        },
+        "health_check": {
+            "enable": true,
+            "interval_sec": 60,
+            "timeout_sec": 45,
+            "action_timeout_sec": 45,
+            "healthy_threshold": 2,
+            "unhealthy_threshold": 2,
+            "check_cmd": "/opt/hbase/bin/health-check.sh",
+            "action_cmd": "/opt/hbase/bin/health-action.sh"
+        },
+        "monitor": {
+            "enable": true,
+            "cmd": "/usr/bin/python /opt/hbase/bin/hbase-monitor.py",
+            "items": {
+                "ritCount": {
+                    "unit": "region",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                }
+            },
+            "groups": {
+                "RITCOUNT": ["ritCount"]
+            },
+            "display": ["RITCOUNT"]
+        }
+    },
+    {
+        "role": "hbase-hdfs-master",
+        "container": {
+            "type": "lxc",
+            "image": "img-3qeo9791",
+            "zone": "pek3a"
+        },
+        "count": 1,
+        "cpu": {{cluster.hbase-hdfs-master.cpu}},
+        "memory": {{cluster.hbase-hdfs-master.memory}},
+        "volume": {
+            "size": {{cluster.hbase-hdfs-master.volume_size}},
+            "mount_point": "/data",
+            "filesystem": "ext4",
+            "class": {{cluster.hbase-hdfs-master.volume_class}}
+        },
+        "instance_class": {{cluster.hbase-hdfs-master.instance_class}},
+        "passphraseless":"ssh-dsa",
+        "advanced_actions": ["change_vxnet"],
+        "services": {
+            "init": {
+                "nodes_to_execute_on": 1,
+                "cmd": "mkdir -p /data/hadoop;/opt/hadoop/bin/hdfs namenode -format"
+            },
+            "start": {
+                "order": 1,
+                "cmd": "USER=root /opt/hadoop/sbin/start-dfs.sh"
+            },
+            "stop": {
+                "order": 2,
+                "cmd": "USER=root /opt/hadoop/sbin/stop-dfs.sh"
+            },
+            "scale_in": {
+                "cmd": "USER=root /opt/hadoop/sbin/exclude-node.sh",
+                "timeout": 86400
+            },
+            "scale_out": {
+                "order": 1,
+                "nodes_to_execute_on": 1,
+                "cmd": "USER=root /opt/hadoop/sbin/start-dfs.sh"
+            },
+            "destroy": {
+                "order": 1,
+                "cmd": "USER=root /usr/bin/python /opt/hadoop/sbin/destroy.py"
+            }
+        },
+        "health_check": {
+            "enable": true,
+            "interval_sec": 60,
+            "timeout_sec": 45,
+            "action_timeout_sec": 45,
+            "healthy_threshold": 2,
+            "unhealthy_threshold": 2,
+            "check_cmd": "/opt/hadoop/sbin/health-check.sh",
+            "action_cmd": "/opt/hadoop/sbin/health-action.sh"
+        },
+        "monitor": {
+            "enable": true,
+            "cmd": "/usr/bin/python /opt/hbase/bin/hbase-monitor.py",
+            "items": {
+                "FilesTotal": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                },
+                "FilesCreated": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "FilesAppended": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "FilesRenamed": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "FilesDeleted": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "UsedGB": {
+                    "unit": "GB",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                },
+                "RemainingGB": {
+                    "unit": "GB",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                },
+                "PercentUsed": {
+                    "unit": "persent",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                },
+                "PercentRemaining": {
+                    "unit": "persent",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                },
+                "LiveNodes": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                },
+                "DeadNodes": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                },
+                "DecomLiveNodes": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                },
+                "DecomDeadNodes": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                },
+                "DecommissioningNodes": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "latest"
+                }
+            },
+            "groups": {
+                "DFS Files": [
+                    "FilesTotal",
+                    "FilesCreated",
+                    "FilesAppended",
+                    "FilesRenamed",
+                    "FilesDeleted"
+                ],
+                "DFS Percentage": [
+                    "PercentUsed",
+                    "PercentRemaining"
+                ],
+                "DFS Capacity": [
+                    "UsedGB",
+                    "RemainingGB"
+                ],
+                "Data Nodes": [
+                    "LiveNodes",
+                    "DeadNodes",
+                    "DecomLiveNodes",
+                    "DecomDeadNodes",
+                    "DecommissioningNodes"
+                ]
+            },
+            "display": [
+                "DFS Files",
+                "DFS Percentage",
+                "DFS Capacity",
+                "Data Nodes"
+            ]
+        }
+    },
+    {
+        "role": "hbase-slave",
+        "container": {
+            "type": "lxc",
+            "image": "img-3ba0v2mv",
+            "zone": "pek3a"
+        },
+	    "instance_class": {{cluster.hbase-slave.instance_class}},
+        "count": {{cluster.hbase-slave.count}},
+        "cpu": {{cluster.hbase-slave.cpu}},
+        "memory": {{cluster.hbase-slave.memory}},
+        "advanced_actions": ["change_vxnet", "scale_horizontal"],
+        "volume": {
+            "size": {{cluster.hbase-slave.volume_size}},
+            "mount_point": "/data",
+            "filesystem": "ext4",
+            "class": {{cluster.hbase-slave.volume_class}}
+        },
+        "services": {
+            "stop": {
+                "order": 3,
+                "cmd": "USER=root /opt/hbase/bin/hbase-daemon.sh stop regionserver;USER=root /opt/hadoop/sbin/hadoop-daemon.sh stop datanode"
+            },
+            "start": {
+                "order": 3,
+                "cmd": "USER=root /opt/hadoop/sbin/start-hadoop-slave.sh;USER=root /opt/hbase/bin/start-regionserver.sh"
+            },
+            "destroy": {
+                "order": 3,
+                "cmd": "USER=root /usr/bin/python /opt/hadoop/sbin/destroy.py"
+            }
+        },
+        "health_check": {
+            "enable": true,
+            "interval_sec": 60,
+            "timeout_sec": 45,
+            "action_timeout_sec": 45,
+            "healthy_threshold": 2,
+            "unhealthy_threshold": 2,
+            "check_cmd": "/opt/hbase/bin/health-check.sh",
+            "action_cmd": "/opt/hbase/bin/health-action.sh"
+        },
+        "monitor": {
+            "enable": true,
+            "cmd": "/usr/bin/python /opt/hbase/bin/hbase-monitor.py",
+            "items": {
+                "readRequestCount": {
+                    "unit": "number per second",
+                    "value_type": "int",
+                    "statistics_type": "rate"
+                },
+                "writeRequestCount": {
+                    "unit": "number per second",
+                    "value_type": "int",
+                    "statistics_type": "rate"
+                },
+                "blockCacheHitCount": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "blockCacheHitCountPercent": {
+                    "unit": "persent",
+                    "value_type": "int",
+                    "statistics_type": "latest",
+                    "scale_factor_when_display": 0.01
+                },
+                "slowDeleteCount": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "slowIncrementCount": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "slowGetCount": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "slowAppendCount": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "slowPutCount": {
+                    "unit": "number",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                },
+                "GcTimeMillisConcurrentMarkSweep": {
+                    "unit": "ms",
+                    "value_type": "int",
+                    "statistics_type": "delta"
+                }
+            },
+            "groups": {
+                "RequestCount": ["readRequestCount", "writeRequestCount"],
+                "SlowCount": ["slowDeleteCount", "slowIncrementCount", "slowGetCount", "slowAppendCount", "slowPutCount"],
+                "BLOCKCACHEHITCOUNT": ["blockCacheHitCount"],
+                "BLOCKCACHEHITCOUNTPERCENT": ["blockCacheHitCountPercent"],
+                "GCTIMEMILLISCONCURRENTMARKSWEEP": ["GcTimeMillisConcurrentMarkSweep"]
+            },
+            "display": ["BLOCKCACHEHITCOUNT", "BLOCKCACHEHITCOUNTPERCENT", "RequestCount", "SlowCount", "GCTIMEMILLISCONCURRENTMARKSWEEP"]
+        }
+    }],
+    "env": {
+        "fs.trash.interval": {{env.fs.trash.interval}},
+        "dfs.replication": {{env.dfs.replication}},
+        "dfs.namenode.handler.count": {{env.dfs.namenode.handler.count}},
+        "dfs.datanode.handler.count": {{env.dfs.datanode.handler.count}},
+        "hbase.regionserver.handler.count": {{env.hbase.regionserver.handler.count}},
+        "hbase.master.handler.count": {{env.hbase.master.handler.count}},
+        "zookeeper.session.timeout": {{env.zookeeper.session.timeout}},
+        "hbase.hregion.majorcompaction": {{env.hbase.hregion.majorcompaction}},
+        "hbase.hstore.blockingStoreFiles": {{env.hbase.hstore.blockingStoreFiles}},
+        "hbase.regionserver.optionalcacheflushinterval": {{env.hbase.regionserver.optionalcacheflushinterval}},
+        "hfile.block.cache.size": {{env.hfile.block.cache.size}},
+        "hbase.regionserver.global.memstore.size": {{env.hbase.regionserver.global.memstore.size}},
+        "hfile.index.block.max.size": {{env.hfile.index.block.max.size}},
+        "hbase.hregion.max.filesize": {{env.hbase.hregion.max.filesize}},
+        "hbase.master.logcleaner.ttl": {{env.hbase.master.logcleaner.ttl}},
+        "hbase.ipc.server.callqueue.handler.factor": {{env.hbase.ipc.server.callqueue.handler.factor}},
+        "hbase.ipc.server.callqueue.read.ratio": {{env.hbase.ipc.server.callqueue.read.ratio}},
+        "hbase.ipc.server.callqueue.scan.ratio": {{env.hbase.ipc.server.callqueue.scan.ratio}},
+        "hbase.regionserver.msginterval": {{env.hbase.regionserver.msginterval}},
+        "hbase.regionserver.logroll.period": {{env.hbase.regionserver.logroll.period}},
+        "hbase.regionserver.regionSplitLimit": {{env.hbase.regionserver.regionSplitLimit}},
+        "hbase.balancer.period": {{env.hbase.balancer.period}},
+        "hbase.regions.slop": {{env.hbase.regions.slop}},
+        "io.storefile.bloom.block.size": {{env.io.storefile.bloom.block.size}},
+        "hbase.rpc.timeout": {{env.hbase.rpc.timeout}},
+        "hbase.column.max.version": {{env.hbase.column.max.version}},
+        "hbase.security.authorization": {{env.hbase.security.authorization}},
+        "qingcloud.hbase.major.compact.hour": {{env.qingcloud.hbase.major.compact.hour}},
+        "qingcloud.phoenix.on.hbase.enable": {{env.qingcloud.phoenix.on.hbase.enable}},
+        "phoenix.functions.allowUserDefinedFunctions": {{env.phoenix.functions.allowUserDefinedFunctions}},
+        "phoenix.transactions.enabled": {{env.phoenix.transactions.enabled}}
+    },
+    "endpoints": {
+        "rest_port": {
+            "port": 8000
+        },
+       "thrift_port": {
+            "port": 9090
+        }
+    }
+}

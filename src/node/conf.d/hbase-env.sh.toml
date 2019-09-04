@@ -1,0 +1,6 @@
+[template]
+src = "hbase-env.sh.tmpl"
+dest = "/opt/hbase/conf/hbase-env.sh"
+keys = [
+  "/",
+]
