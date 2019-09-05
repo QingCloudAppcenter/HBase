@@ -61,7 +61,7 @@ then
                         transactions={{getv "/env/phoenix.transactions.enabled" "false"}}
                         if [ "$phoenix" = "true" ];then
                             if [ "$transactions" = "true" ];then
-                                pid=`ps aux | grep java | grep -v grep | grep -v HMaster | grep RESTServer | grep -v ThriftServer | awk '{print $1}'`
+                                pid=`ps aux | grep java | grep -v grep | grep -v HMaster | grep -v RESTServer | grep -v ThriftServer | awk '{print $1}'`
                                 if [ "x$pid" = "x" ]
                                 then
                                     echo "Tephra is not running"
