@@ -9,27 +9,28 @@ URL=https://bigdata-package.pek3a.qingstor.com/hbase
 JDK_PACKAGE=jdk-8u141-linux-x64.tar.gz
 HADOOP_PACKAGE=hadoop-2.7.7.tar.gz
 HBASE_PACKAGE=hbase-2.0.6-bin.tar.gz
-PHOENIX_PACKAGE=apache-phoenix-5.0.0-HBase-2.0-bin.tar.gz
+PHOENIX_PACKAGE=phoenix-5.0.0-HBase-2.0.tar.gz
 PHOENIX_SERVER=phoenix-5.0.0-HBase-2.0-server.jar
 
 JDK_DIR=jdk1.8.0_141
 HADOOP_DIR=hadoop-2.7.7
 HBASE_DIR=hbase-2.0.6
-PHOENIX_DIR=apache-phoenix-5.0.0-HBase-2.0-bin
+PHOENIX_DIR=phoenix-5.0.0-HBase-2.0
 
 cd ${HOME_DIR}
 rm -rf ${HADOOP_PACKAGE} ${HBASE_PACKAGE} ${PHOENIX_PACKAGE}
 wget ${URL}/${HBASE_PACKAGE}
 wget ${URL}/${HADOOP_PACKAGE}
-wget http://mirror.bit.edu.cn/apache/phoenix/apache-phoenix-5.0.0-HBase-2.0/bin/apache-phoenix-5.0.0-HBase-2.0-bin.tar.gz
+wget ${URL}/${PHOENIX_PACKAGE}
 
 rm -rf ${HADOOP_DIR} hadoop; rm -rf ${HBASE_DIR} hbase; rm -rf ${PHOENIX_DIR} phoenix
 tar -xzvf ${HADOOP_PACKAGE}; tar -xzvf ${HBASE_PACKAGE}; tar -xzvf ${PHOENIX_PACKAGE}
+rm -rf ${HADOOP_PACKAGE} ${HBASE_PACKAGE} ${PHOENIX_PACKAGE}
 ln -s ${HADOOP_DIR} hadoop; ln -s ${HBASE_DIR} hbase; ln -s ${PHOENIX_DIR} phoenix
 cd phoenix/bin/; rm -rf hbase-site.xml; ln -s ${HOME_DIR}/hbase/conf/hbase-site.xml hbase-site.xml; cd ${HOME_DIR}
 cp phoenix/${PHOENIX_SERVER} hbase/lib/
 cp phoenix/bin/tephra hbase/bin/;chmod +x hbase/bin/tephra
-#rm -rf /opt/hbase/lib/guava-*;cp /opt/phoenix/lib/guava-13.0.1.jar /opt/hbase/lib/
+rm -rf /opt/hbase/lib/guava-*; cp /opt/phoenix/lib/guava-13.0.1.jar /opt/hbase/lib/
 sed -i s/RFA/DRFA/g hbase/bin/hbase-daemon.sh
 sed -i s/RFA/DRFA/g hadoop/sbin/hadoop-daemon.sh
 # append DRFAS to log4j.properties in hbase

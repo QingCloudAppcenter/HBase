@@ -5,13 +5,17 @@
     "links": {
         "zk_service": {{cluster.zk_service}}
     },
+    "upgrade_policy": [
+        "appv-5qfuoic7"
+    ],
+    "upgrading_policy": "parallel",
     "nodes": [
     {
         "role": "hbase-client",
         "user_access": true,
         "container": {
             "type": "kvm",
-            "image": "img-8ibi10kt",
+            "image": "img-x7yyuy15",
             "zone": "pek3a"
         },
         "count": {{cluster.hbase-client.count}},
@@ -45,7 +49,7 @@
         "role": "hbase-master",
         "container": {
             "type": "lxc",
-            "image": "img-rmnpvv20",
+            "image": "img-ga9gh1jk",
             "zone": "pek3a"
         },
         "count": 1,
@@ -109,7 +113,7 @@
         "role": "hbase-hdfs-master",
         "container": {
             "type": "lxc",
-            "image": "img-3qeo9791",
+            "image": "img-ga9gh1jk",
             "zone": "pek3a"
         },
         "count": 1,
@@ -272,7 +276,7 @@
         "role": "hbase-slave",
         "container": {
             "type": "lxc",
-            "image": "img-3ba0v2mv",
+            "image": "img-ga9gh1jk",
             "zone": "pek3a"
         },
 	    "instance_class": {{cluster.hbase-slave.instance_class}},

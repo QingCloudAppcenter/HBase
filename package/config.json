@@ -36,6 +36,9 @@
           "description": "The zookeeper that the HBase cluster will use",
           "type": "service",
           "tag": ["ZK", "ZooKeeper"],
+          "limits": {
+            "app-tg3lbp0a": []
+          },
           "default": "",
           "required": "yes"
         },
