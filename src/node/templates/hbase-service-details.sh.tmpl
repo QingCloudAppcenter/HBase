@@ -1,0 +1,49 @@
+#!/bin/sh
+
+{{range $dir := lsdir "/hosts/hbase-master/"}}{{$ip := printf "/hosts/hbase-master/%s/ip" $dir}}
+HBASE_MASTER_IP={{getv $ip}}{{end}}
+{{range $dir := lsdir "/hosts/hbase-hdfs-master/"}}{{$ip := printf "/hosts/hbase-hdfs-master/%s/ip" $dir}}
+HBASE_HDFS_MASTER_IP={{getv $ip}}{{end}}
+
+{{if exists "/links/zk_service/cluster/endpoints/client/port"}}{{$port := getv "/links/zk_service/cluster/endpoints/client/port"}}
+ZK_QUORUM={{range $i, $host := ls (printf "/links/zk_service/hosts")}}{{$ip := printf "/links/zk_service/hosts/%s/ip" $host}}{{if $i}},{{end}}{{getv $ip}}:{{$port}}{{end}}
+{{else}}
+ZK_QUORUM={{range $i, $host := ls (printf "/links/zk_service/hosts")}}{{$ip := printf "/links/zk_service/hosts/%s/ip" $host}}{{if $i}},{{end}}{{getv $ip}}:2181{{end}}
+{{end}}
+
+ZK_PARENT=/hbase/{{getv "/cluster/cluster_id"}}
+
+
+tab_begin="{"
+tab_end="}"
+
+label_begin="\"labels\": "
+
+title="[\"Service Name\", \"Address Info\"]"
+
+label=${label_begin}${title}
+
+sep=","
+
+data_begin="\"data\": ["
+
+hbase_dashboard="[\"HBase Web UI\", \"http://${HBASE_MASTER_IP}:16010\"]"
+hdfs_dashboard="[\"HDFS Web UI\", \"http://${HBASE_HDFS_MASTER_IP}:50070\"]"
+hbase_thrift="[\"HBase Thrift\", \"${HBASE_MASTER_IP}:9090\"]"
+hbase_rest="[\"HBase Rest\", \"${HBASE_MASTER_IP}:8000\"]"
+hbase_zookeeper_quorum="[\"hbase.zookeeper.quorum\", \"${ZK_QUORUM}\"]"
+zookeeper_znode_parent="[\"zookeeper.znode.parent\", \"${ZK_PARENT}\"]"
+
+data_end="]"
+
+data="${data_begin}
+    ${hbase_dashboard}${sep}
+    ${hdfs_dashboard}${sep}
+    ${hbase_thrift}${sep}
+    ${hbase_rest}${sep}
+    ${hbase_zookeeper_quorum}${sep}
+    ${zookeeper_znode_parent}
+${data_end}"
+
+echo ${tab_begin}${label}${sep}${data}${tab_end}
+

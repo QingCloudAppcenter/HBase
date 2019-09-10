@@ -1,0 +1,7 @@
+[template]
+src = "hbase-service-details.sh.tmpl"
+dest = "/opt/hbase/bin/hbase-service-details.sh"
+mode = "0777"
+keys = [
+  "/",
+]
