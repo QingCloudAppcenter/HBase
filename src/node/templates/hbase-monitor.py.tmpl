@@ -24,7 +24,7 @@ def parse_hbase_stat(role, hjson):
     stats = {}
     if role == HBASE_MASTER:
         for sub_dict in hjson["beans"]:
-            if "name" in sub_dict and sub_dict["name"] == "Hadoop:service=HBase,name=Master,sub=AssignmentManger":
+            if "name" in sub_dict and sub_dict["name"] == "Hadoop:service=HBase,name=Master,sub=AssignmentManager":
                 if "ritCount" in sub_dict:
                     stats["ritCount"] = sub_dict["ritCount"]
                     return stats

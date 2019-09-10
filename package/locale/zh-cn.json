@@ -94,5 +94,9 @@
   "DeadNodes": "死亡的 DataNode 数",
   "DecomLiveNodes": "退役的存活 DataNode 数",
   "DecomDeadNodes": "退役的死亡 DataNode 数",
-  "DecommissioningNodes": "退役中的 Datanode 数"
+  "DecommissioningNodes": "退役中的 Datanode 数",
+  "service_catalog": "服务目录",
+  "zk_service": "Zookeeper 集群",
+  "rest_port": "Rest 服务端口",
+  "thrift_port": "Thrift 服务端口"
 }

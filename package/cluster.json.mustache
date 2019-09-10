@@ -15,7 +15,7 @@
         "user_access": true,
         "container": {
             "type": "kvm",
-            "image": "img-x7yyuy15",
+            "image": "img-r2pywyyi",
             "zone": "pek3a"
         },
         "count": {{cluster.hbase-client.count}},
@@ -24,8 +24,7 @@
         "volume": {
             "size": {{cluster.hbase-client.volume_size}},
             "mount_point": "/data",
-            "filesystem": "ext4",
-            "class": {{cluster.hbase-client.volume_class}}
+            "filesystem": "ext4"
         },
         "instance_class": {{cluster.hbase-client.instance_class}},
         "passphraseless": "ssh-dsa",
@@ -49,7 +48,7 @@
         "role": "hbase-master",
         "container": {
             "type": "lxc",
-            "image": "img-ga9gh1jk",
+            "image": "img-6yj3quez",
             "zone": "pek3a"
         },
         "count": 1,
@@ -58,8 +57,7 @@
         "volume": {
             "size": {{cluster.hbase-master.volume_size}},
             "mount_point": "/data",
-            "filesystem": "ext4",
-            "class": {{cluster.hbase-master.volume_class}}
+            "filesystem": "ext4"
         },
         "instance_class": {{cluster.hbase-master.instance_class}},
         "passphraseless": "ssh-dsa",
@@ -113,7 +111,7 @@
         "role": "hbase-hdfs-master",
         "container": {
             "type": "lxc",
-            "image": "img-ga9gh1jk",
+            "image": "img-6yj3quez",
             "zone": "pek3a"
         },
         "count": 1,
@@ -122,8 +120,7 @@
         "volume": {
             "size": {{cluster.hbase-hdfs-master.volume_size}},
             "mount_point": "/data",
-            "filesystem": "ext4",
-            "class": {{cluster.hbase-hdfs-master.volume_class}}
+            "filesystem": "ext4"
         },
         "instance_class": {{cluster.hbase-hdfs-master.instance_class}},
         "passphraseless":"ssh-dsa",
@@ -194,22 +191,12 @@
                     "value_type": "int",
                     "statistics_type": "delta"
                 },
-                "UsedGB": {
-                    "unit": "GB",
-                    "value_type": "int",
-                    "statistics_type": "latest"
-                },
                 "RemainingGB": {
                     "unit": "GB",
                     "value_type": "int",
                     "statistics_type": "latest"
                 },
                 "PercentUsed": {
-                    "unit": "persent",
-                    "value_type": "int",
-                    "statistics_type": "latest"
-                },
-                "PercentRemaining": {
                     "unit": "persent",
                     "value_type": "int",
                     "statistics_type": "latest"
@@ -249,11 +236,9 @@
                     "FilesDeleted"
                 ],
                 "DFS Percentage": [
-                    "PercentUsed",
-                    "PercentRemaining"
+                    "PercentUsed"
                 ],
                 "DFS Capacity": [
-                    "UsedGB",
                     "RemainingGB"
                 ],
                 "Data Nodes": [
@@ -276,7 +261,7 @@
         "role": "hbase-slave",
         "container": {
             "type": "lxc",
-            "image": "img-ga9gh1jk",
+            "image": "img-6yj3quez",
             "zone": "pek3a"
         },
 	    "instance_class": {{cluster.hbase-slave.instance_class}},
@@ -287,8 +272,7 @@
         "volume": {
             "size": {{cluster.hbase-slave.volume_size}},
             "mount_point": "/data",
-            "filesystem": "ext4",
-            "class": {{cluster.hbase-slave.volume_class}}
+            "filesystem": "ext4"
         },
         "services": {
             "stop": {
@@ -415,10 +399,19 @@
     },
     "endpoints": {
         "rest_port": {
-            "port": 8000
+            "port": 8000,
+            "protocol": "http"
         },
        "thrift_port": {
-            "port": 9090
+            "port": 9090,
+            "protocol": "tcp"
+        }
+    },
+    "display_tabs": {
+        "service_catalog": {
+            "cmd": "/opt/hbase/bin/hbase-service-details.sh",
+            "roles_to_execute_on": ["hbase-master"],
+            "timeout": 10
         }
     }
 }
