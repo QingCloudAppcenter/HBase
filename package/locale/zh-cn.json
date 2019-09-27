@@ -98,5 +98,13 @@
   "service_catalog": "服务目录",
   "zk_service": "Zookeeper 集群",
   "rest_port": "Rest 服务端口",
-  "thrift_port": "Thrift 服务端口"
+  "thrift_port": "Thrift 服务端口",
+  "Resource Configuration": "规格",
+  "The resource configuration of the service": "服务资源配置",
+  "1C2G": "1核2G",
+  "2C4G": "2核4G",
+  "4C8G": "4核8G",
+  "8C16G": "8核16G",
+  "16C32G": "16核32G",
+  "32C64G": "32核64G"
 }
