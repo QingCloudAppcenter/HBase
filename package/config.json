@@ -15,6 +15,14 @@
           "required": "no"
         },
         {
+          "key": "resource_group",
+          "label": "Resource Configuration",
+          "description": "The resource configuration of the service",
+          "type": "string",
+          "default": "4C8G",
+          "range": ["1C2G", "2C4G", "4C8G", "8C16G", "16C32G"]
+        },
+        {
           "key": "description",
           "label": "Description",
           "description": "The description of the HBase service",
@@ -53,8 +61,9 @@
               "label": "CPU",
               "description": "CPUs of each node",
               "type": "integer",
-              "default": 2,
-              "range": [1,2,4,8,16,32],
+              "default": 4,
+              "range": [1, 2, 4, 8, 16, 32],
+              "resource_group": [1, 2, 4, 8, 16],
               "required": "yes"
             },
             {
@@ -72,25 +81,27 @@
               "label": "Memory",
               "description": "Memory of each node",
               "type": "integer",
-              "default": 4096,
+              "default": 8192,
               "range": [2048, 4096, 6144, 8192, 12288, 16384, 24576, 32768, 40960, 49152, 65536],
+              "resource_group": [2048, 4096, 8192, 16384, 32768],
               "required": "yes"
             },
             {
               "key": "instance_class",
               "label": "Instance class",
-              "description":"The instance type for the cluster to run",
-              "type":"integer",
-              "default":0,
-              "range": [0,1],
+              "description": "The instance type for the cluster to run",
+              "type": "integer",
+              "default": 201,
+              "range": [101, 201],
               "required":"yes"
             },
             {
               "key": "volume_size",
               "label": "Volume size",
-              "description":"The volume size for each instance",
-              "type":"integer",
-              "default":20,
+              "description": "The volume size for each instance",
+              "type": "integer",
+              "default": 60,
+              "resource_group": [20, 40, 60, 80, 100],
               "required":"yes"
             }
           ]
@@ -106,8 +117,9 @@
               "label": "CPU",
               "description": "CPUs of each node",
               "type": "integer",
-              "default": 2,
-              "range": [1,2,4,8,16,32],
+              "default": 4,
+              "range": [1, 2, 4, 8, 16, 32],
+              "resource_group": [1, 2, 4, 8, 16],
               "required": "yes"
             },
             {
@@ -115,8 +127,9 @@
               "label": "Memory",
               "description": "Memory of each node",
               "type": "integer",
-              "default": 4096,
+              "default": 8192,
               "range": [2048, 4096, 6144, 8192, 12288, 16384, 24576, 32768, 40960, 49152, 65536],
+              "resource_group": [2048, 4096, 8192, 16384, 32768],
               "required": "yes"
             },
             {
@@ -124,17 +137,18 @@
               "label": "Instance class",
               "description":"The instance type for the cluster to run",
               "type":"integer",
-              "default":0,
-              "range": [0,1],
+              "default": 201,
+              "range": [101, 201],
               "required":"yes"
             },
             {
               "key": "volume_size",
               "label": "Volume size",
-              "description":"The volume size for each instance",
-              "type":"integer",
-              "default":20,
-              "required":"yes"
+              "description": "The volume size for each instance",
+              "type": "integer",
+              "default": 60,
+              "resource_group": [20, 40, 60, 80, 100],
+              "required": "yes"
             }
           ]
         },
@@ -149,8 +163,9 @@
               "label": "CPU",
               "description": "CPUs of each node",
               "type": "integer",
-              "default": 2,
-              "range": [1,2,4,8,16,32],
+              "default": 4,
+              "range": [1, 2, 4, 8, 16, 32],
+              "resource_group": [1, 2, 4, 8, 16],
               "required": "yes"
             },
             {
@@ -158,8 +173,9 @@
               "label": "Memory",
               "description": "Memory of each node",
               "type": "integer",
-              "default": 4096,
+              "default": 8192,
               "range": [2048, 4096, 6144, 8192, 12288, 16384, 24576, 32768, 40960, 49152, 65536],
+              "resource_group": [2048, 4096, 8192, 16384, 32768],
               "required": "yes"
             },
             {
@@ -167,8 +183,8 @@
               "label": "Instance class",
               "description": "The instance type for the cluster to run",
               "type": "integer",
-              "default": 0,
-              "range": [0,1],
+              "default": 201,
+              "range": [101, 201],
               "required": "yes"
             },
             {
@@ -176,7 +192,8 @@
               "label": "Volume size",
               "description": "The volume size for each instance",
               "type": "integer",
-              "default": 20,
+              "default": 60,
+              "resource_group": [20, 40, 60, 80, 100],
               "required": "yes"
             }
           ]
@@ -192,8 +209,9 @@
               "label": "CPU",
               "description": "CPUs of each node",
               "type": "integer",
-              "default": 2,
-              "range": [1,2,4,8,16,32],
+              "default": 4,
+              "range": [1, 2, 4, 8, 16, 32],
+              "resource_group": [1, 2, 4, 8, 16],
               "required": "yes"
             },
             {
@@ -201,8 +219,9 @@
               "label": "Memory",
               "description": "Memory of each node",
               "type": "integer",
-              "default": 4096,
+              "default": 8192,
               "range": [2048, 4096, 6144, 8192, 12288, 16384, 24576, 32768, 40960, 49152, 65536],
+              "resource_group": [2048, 4096, 8192, 16384, 32768],
               "required": "yes"
             },
             {
@@ -220,8 +239,8 @@
               "label": "Instance class",
               "description": "The instance type for the cluster to run",
               "type": "integer",
-              "default": 0,
-              "range": [0,1],
+              "default": 201,
+              "range": [101, 201],
               "required": "yes"
             },
             {
@@ -230,6 +249,7 @@
               "description": "The volume size for each instance",
               "type": "integer",
               "default": 100,
+              "resource_group": [40, 60, 100, 200, 400],
               "required": "yes"
             }
           ]
