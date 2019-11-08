@@ -11,6 +11,7 @@ HADOOP_PACKAGE=hadoop-2.7.7.tar.gz
 HBASE_PACKAGE=hbase-2.0.6-bin.tar.gz
 PHOENIX_PACKAGE=phoenix-5.0.0-HBase-2.0.tar.gz
 PHOENIX_SERVER=phoenix-5.0.0-HBase-2.0-server.jar
+HBASE_HBCK_JAR=hbase-hbck2-1.0.0.jar
 
 JDK_DIR=jdk1.8.0_141
 HADOOP_DIR=hadoop-2.7.7
@@ -30,9 +31,10 @@ ln -s ${HADOOP_DIR} hadoop; ln -s ${HBASE_DIR} hbase; ln -s ${PHOENIX_DIR} phoen
 cd phoenix/bin/; rm -rf hbase-site.xml; ln -s ${HOME_DIR}/hbase/conf/hbase-site.xml hbase-site.xml; cd ${HOME_DIR}
 cp phoenix/${PHOENIX_SERVER} hbase/lib/
 cp phoenix/bin/tephra hbase/bin/;chmod +x hbase/bin/tephra
-rm -rf /opt/hbase/lib/guava-*; cp /opt/phoenix/lib/guava-13.0.1.jar /opt/hbase/lib/
+rm -rf hbase/lib/guava-*; cp phoenix/lib/guava-13.0.1.jar hbase/lib/
 sed -i s/RFA/DRFA/g hbase/bin/hbase-daemon.sh
 sed -i s/RFA/DRFA/g hadoop/sbin/hadoop-daemon.sh
+cd hbase/lib; wget ${URL}/${HBASE_HBCK_JAR}; cd ${HOME_DIR}
 # append DRFAS to log4j.properties in hbase
 wget https://raw.githubusercontent.com/QingCloudAppcenter/HBase/master/src/add_log4j.properties
 cat add_log4j.properties >> hbase/conf/log4j.properties; rm -rf add_log4j.properties
