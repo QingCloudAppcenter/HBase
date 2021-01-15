@@ -1,0 +1,24 @@
+syntax = "proto2";
+
+option java_package = "com.qingcloud.appcenter.hbase.coprocessor";
+option java_outer_classname = "PbCoprocessor";
+option java_generic_services = true;
+option java_generate_equals_and_hash = true;
+option optimize_for = SPEED;
+
+// protoc -I. --java_out=/root/operator/src/main/java/ src/main/protobuf/Coprocessor.proto
+
+message CountRowRequest {
+  optional string columnFamily = 1;
+  optional string startRowKey = 2;
+  optional string endRowKey = 3;
+  optional int32 scanBatch = 4;
+}
+
+message CountRowResponse {
+  required int64 count = 1;
+}
+
+service CountService {
+  rpc countRow(CountRowRequest) returns (CountRowResponse);
+}
