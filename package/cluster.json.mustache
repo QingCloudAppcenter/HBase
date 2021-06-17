@@ -6,7 +6,7 @@
         "zk_service": {{cluster.zk_service}}
     },
     "upgrade_policy": [
-        "appv-5qfuoic7"
+        "appv-y0dunpcc"
     ],
     "upgrading_policy": "parallel",
     "nodes": [
@@ -16,7 +16,7 @@
         "container": {
             "type": "kvm",
             "image": "img-hjxv39aq",
-            "zone": "pek3a"
+            "zone": "pek3"
         },
         "count": {{cluster.hbase-client.count}},
         "cpu": {{cluster.hbase-client.cpu}},
@@ -48,8 +48,8 @@
         "role": "hbase-master",
         "container": {
             "type": "lxc",
-            "image": "img-5juhc7wy",
-            "zone": "pek3a"
+            "image": "img-dmtvrcsa",
+            "zone": "pek3"
         },
         "count": 1,
         "cpu": {{cluster.hbase-master.cpu}},
@@ -79,6 +79,12 @@
             "destroy": {
                 "order": 2,
                 "cmd": "USER=root /usr/bin/python /opt/hadoop/sbin/destroy.py"
+            },
+            "restart_rs": {
+                "type": "custom",
+                "cmd": "USER=root /opt/hbase/bin/rolling-restart.sh --rs-only",
+                "nodes_to_execute_on": 1,
+                "timeout": 180
             }
         },
         "health_check": {
@@ -111,8 +117,8 @@
         "role": "hbase-hdfs-master",
         "container": {
             "type": "lxc",
-            "image": "img-5juhc7wy",
-            "zone": "pek3a"
+            "image": "img-dmtvrcsa",
+            "zone": "pek3"
         },
         "count": 1,
         "cpu": {{cluster.hbase-hdfs-master.cpu}},
@@ -261,8 +267,8 @@
         "role": "hbase-slave",
         "container": {
             "type": "lxc",
-            "image": "img-5juhc7wy",
-            "zone": "pek3a"
+            "image": "img-dmtvrcsa",
+            "zone": "pek3"
         },
 	    "instance_class": {{cluster.hbase-slave.instance_class}},
         "count": {{cluster.hbase-slave.count}},
