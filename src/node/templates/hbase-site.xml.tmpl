@@ -35,6 +35,11 @@
     <value>hdfs://{{getv $node}}:9000/hbase</value>{{end}}
   </property>
   <property>
+    <name>hbase.dynamic.jars.dir</name>
+    {{range $dir := lsdir "/hosts/hbase-hdfs-master/"}}{{$node := printf "/hosts/hbase-hdfs-master/%s/node_id" $dir}}
+    <value>hdfs://{{getv $node}}:9000/hbase/lib</value>{{end}}
+  </property>
+  <property>
     <name>hbase.fs.tmp.dir</name>
     <value>/data/hbase/hbase-staging</value>
   </property>
