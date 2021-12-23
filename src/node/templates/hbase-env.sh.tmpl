@@ -29,5 +29,5 @@ then
     export HBASE_MASTER_OPTS="-Xmx${half_free}m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$HBASE_LOG_DIR/gc-master.log"
 else
     export HBASE_HEAPSIZE=${total_free}m
-    export HBASE_REGIONSERVER_OPTS="-Xmx${total_free}m -Xms${total_free}m -Xmn128m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$HBASE_LOG_DIR/gc-regionserver.log"
+    export HBASE_REGIONSERVER_OPTS="-Xmx${total_free}m -Xms${total_free}m -Xmn512m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$HBASE_LOG_DIR/gc-regionserver.log"
 fi
