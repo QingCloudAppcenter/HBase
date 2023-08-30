@@ -5,18 +5,18 @@ set -e
 HOME_DIR=/opt
 
 # appcenter@yunify.com
-URL=https://bigdata-package.pek3a.qingstor.com/hbase
+URL=https://bigdata-package.pek3a.qingstor.com/hbase/2.4.4-v3.0.0
 JDK_PACKAGE=jdk-8u141-linux-x64.tar.gz
-HADOOP_PACKAGE=hadoop-2.7.7.tar.gz
-HBASE_PACKAGE=hbase-2.0.6-bin.tar.gz
-PHOENIX_PACKAGE=phoenix-5.0.0-HBase-2.0.tar.gz
-PHOENIX_SERVER=phoenix-5.0.0-HBase-2.0-server.jar
-HBASE_HBCK_JAR=hbase-hbck2-1.0.0.jar
+HADOOP_PACKAGE=hadoop-3.2.1.tar.gz
+HBASE_PACKAGE=hbase-2.4.4-bin.tar.gz
+PHOENIX_PACKAGE=phoenix-hbase-2.4-5.1.2-bin.tar.gz
+PHOENIX_SERVER=phoenix-server-hbase-2.4-5.1.2.jar
+HBASE_HBCK_JAR=hbase-hbck2-1.2.0.jar
 
 JDK_DIR=jdk1.8.0_141
-HADOOP_DIR=hadoop-2.7.7
-HBASE_DIR=hbase-2.0.6
-PHOENIX_DIR=phoenix-5.0.0-HBase-2.0
+HADOOP_DIR=hadoop-3.2.1
+HBASE_DIR=hbase-2.4.4
+PHOENIX_DIR=phoenix-hbase-2.4-5.1.2-bin
 
 cd ${HOME_DIR}
 rm -rf ${HADOOP_PACKAGE} ${HBASE_PACKAGE} ${PHOENIX_PACKAGE}
