@@ -29,23 +29,6 @@ then
                     echo "ThriftServer is not running"
                     USER=root /opt/hbase/bin/hbase-daemon.sh start thrift2
                 fi
-
-                {{if exists "/env/qingcloud.phoenix.on.hbase.enable"}}
-                    phoenix={{getv "/env/qingcloud.phoenix.on.hbase.enable" "false"}}
-                    {{if exists "/env/phoenix.transactions.enabled"}}
-                        transactions={{getv "/env/phoenix.transactions.enabled" "false"}}
-                        if [ "$phoenix" = "true" ];then
-                            if [ "$transactions" = "true" ];then
-                                pid=`ps aux | grep java | grep -v grep | grep -v HMaster | grep -v RESTServer | grep -v ThriftServer | awk '{print $1}'`
-                                if [ "x$pid" = "x" ]
-                                then
-                                    echo "Tephra is not running"
-                                    USER=root /opt/hbase/bin/tephra start
-                                fi
-                            fi
-                        fi
-                    {{end}}
-                {{end}}
             {{end}}
         {{end}}
     {{end}}

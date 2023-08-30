@@ -538,33 +538,6 @@
           "max": 24,
           "default": 3,
           "required":"no"
-        },
-        {
-          "key": "qingcloud.phoenix.on.hbase.enable",
-          "label": "qingcloud.phoenix.on.hbase.enable",
-          "description": "Enable phoenix on this cluster or not",
-          "type": "string",
-          "default": "false",
-          "range": ["true", "false"],
-          "required":"no"
-        },
-        {
-          "key": "phoenix.functions.allowUserDefinedFunctions",
-          "label": "phoenix.functions.allowUserDefinedFunctions",
-          "description": "Enable phoenix udf or not",
-          "type": "string",
-          "default": "false",
-          "range": ["true", "false"],
-          "required":"no"
-        },
-        {
-          "key": "phoenix.transactions.enabled",
-          "label": "phoenix.transactions.enabled",
-          "description": "Enable phoenix transations or not",
-          "type": "string",
-          "default": "false",
-          "range": ["true", "false"],
-          "required":"no"
         }
       ]
     }

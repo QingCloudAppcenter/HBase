@@ -46,21 +46,6 @@ fi
         echo "Start HBase balance_switch failed"
       fi
 
-      {{if exists "/env/qingcloud.phoenix.on.hbase.enable"}}
-        phoenix={{getv "/env/qingcloud.phoenix.on.hbase.enable" "false"}}
-        {{if exists "/env/phoenix.transactions.enabled"}}
-          transactions={{getv "/env/phoenix.transactions.enabled" "false"}}
-          if [ "$phoenix" = "true" ];then
-            if [ "$transactions" = "true" ];then
-              USER=root /opt/hbase/bin/tephra start
-              if [ $? -ne 0 ];then
-                echo "Start HBase phoenix tephra failed"
-                exit 1
-              fi
-            fi
-          fi
-        {{end}}
-      {{end}}
     {{end}}
   {{end}}
 {{end}}

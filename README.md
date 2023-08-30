@@ -60,31 +60,3 @@ mvn -DskipTests package -Dhadoop.profile=3.0 assembly:single install
     ```bash
     mvn install -DskipTests -Dhbase.profile=2.4 -Dhbase.version=2.4.4
     ```
-    因 Phoenix 5.0.0 是根据 HBase 2.0 早期版本的实现，针对 2.0.6 版本需要进行部分代码修改：
-
-* SubsetConfiguration 问题
-    ```java
-    import org.apache.commons.configuration2.SubsetConfiguration;
-    替换为：
-    import org.apache.commons.configuration.SubsetConfiguration;
-    ```
-* 重载 getMetaPriorityQueueLength 函数问题
-    ```java
-    phoenix-core/src/main/java/org/apache/hadoop/hbase/ipc/PhoenixRpcScheduler.java 中增加：
-    @Override
-    public int getMetaPriorityQueueLength() {
-        return delegate.getMetaPriorityQueueLength();
-    }
-    ```
-* CellComparatorImpl 构造方法参数问题
-    两参数，增加为三参数：
-    ```java
-    public IndexMemStore() {
-      this(new CellComparatorImpl(){
-          @Override
-          public int compare(Cell a, Cell b, boolean ignoreSequenceid) {
-              return super.compare(a, b, true);
-          }
-      });
-    }
-    ```
