@@ -41,11 +41,10 @@ cat add_log4j.properties >> hbase/conf/log4j.properties; rm -rf add_log4j.proper
 rm -rf /etc/hosts; touch /etc/hosts
 
 # lzo
-wget ${URL}/libgplcompression.tar.gz; mv libgplcompression.tar.gz hadoop/lib/native/
-cd hadoop/lib/native/; tar -xzvf libgplcompression.tar.gz; mv libgplcompression/* .; rm -rf libgplcompression/ libgplcompression.tar.gz; cd ${HOME_DIR}
-wget ${URL}/liblzo.tar.gz; mkdir -p /usr/lib64/; cp liblzo.tar.gz /usr/lib64
-cd /usr/lib64/; tar -xzvf liblzo.tar.gz; rm -rf liblzo.tar.gz; cd ${HOME_DIR}
-mv liblzo.tar.gz /usr/lib/; cd /usr/lib/; tar -xzvf liblzo.tar.gz; rm -rf liblzo.tar.gz; cd ${HOME_DIR}
+wget ${URL}/libgplcompression.tar.gz;
+tar -xzvf libgplcompression.tar.gz; mv libgplcompression/* hadoop/lib/native/; rm -rf libgplcompression/ libgplcompression.tar.gz
+wget ${URL}/lzolib-2.10.tar.gz;
+tar -xzvf lzolib-2.10.tar.gz; cp lzolib/* /usr/lib/; mkdir -p /usr/lib64; cp lzolib/* /usr/lib64/; rm -rf lzolib lzolib-2.10.tar.gz
 wget ${URL}/lzop; mv lzop /usr/local/bin/lzop; rm -rf /usr/bin/lzop; ln -s /usr/local/bin/lzop /usr/bin/lzop
 wget ${URL}/hadoop-lzo-0.4.20.jar; mv hadoop-lzo-0.4.20.jar hadoop/share/hadoop/common/
 

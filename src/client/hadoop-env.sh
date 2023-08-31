@@ -23,7 +23,7 @@
 
 # The java implementation to use.
 export JAVA_HOME=${JAVA_HOME}
-export HADOOP_CLASSPATH=/usr/local/hadoop/share/hadoop/common/hadoop-lzo-0.4.20-SNAPSHOT.jar:$HADOOP_CLASSPATH
+export HADOOP_CLASSPATH=/usr/local/hadoop/share/hadoop/common/hadoop-lzo-0.4.20.jar:$HADOOP_CLASSPATH
 export JAVA_LIBRARY_PATH=/usr/local/hadoop/lib/native:$JAVA_LIBRARY_PATH
 
 # The jsvc implementation to use. Jsvc is required to run secure datanodes
