@@ -75,6 +75,7 @@ echo "net.ipv6.conf.lo.disable_ipv6=1" >> /etc/sysctl.conf
 echo "export JAVA_HOME=/usr/jdk" >> /etc/profile
 echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/profile
 
+cp rc.local /etc/rc.local && chmod +x /etc/rc.local
 sed -i '/^exit 0$/i\rm -rf /tmp/hostname' /etc/rc.local
 sed -i '/^exit 0$/i\rm -rf /data/hadoop/pids' /etc/rc.local
 sed -i '/^exit 0$/i\rm -rf /data/hbase/pids' /etc/rc.local
