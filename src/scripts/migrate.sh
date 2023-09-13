@@ -39,7 +39,7 @@ else
     cp reload-hdfs-site.sh /opt/hbase/bin/reload-hdfs-site.sh
     cp refresh-nodes.sh /opt/hadoop/sbin/refresh-nodes.sh
     cp restart-hbase.sh /opt/hbase/bin/restart-hbase.sh
-    cp start-hadoop-slave.sh /opt/hadoop/sbin/start-hadoop-slave.sh
+    cp start-hadoop-worker.sh /opt/hadoop/sbin/start-hadoop-worker.sh
     cp start-regionserver.sh /opt/hbase/bin/start-regionserver.sh
     cp stop.sh /opt/hbase/bin/stop.sh
     cat node_profile >> /etc/profile
