@@ -42,6 +42,8 @@ else
     cp start-hadoop-slave.sh /opt/hadoop/sbin/start-hadoop-slave.sh
     cp start-regionserver.sh /opt/hbase/bin/start-regionserver.sh
     cp stop.sh /opt/hbase/bin/stop.sh
+    cat node_profile >> /etc/profile
+    cat node_profile >> /root/.bashrc
 
     cd ../scripts
     cat forbidden_ports >> /etc/sysctl.conf
