@@ -31,8 +31,6 @@ ln -s ${HADOOP_DIR} hadoop; ln -s ${HBASE_DIR} hbase; ln -s ${PHOENIX_DIR} phoen
 cd phoenix/bin/; rm -rf hbase-site.xml; ln -s ${HOME_DIR}/hbase/conf/hbase-site.xml hbase-site.xml; cd ${HOME_DIR}
 cp phoenix/${PHOENIX_SERVER} hbase/lib/
 #rm -rf hbase/lib/guava-*; cp phoenix/lib/guava-13.0.1.jar hbase/lib/
-sed -i s/RFA/DRFA/g hbase/bin/hbase-daemon.sh
-sed -i s/RFA/DRFA/g hadoop/sbin/hadoop-daemon.sh
 cd hbase/lib; wget ${URL}/${HBASE_HBCK_JAR}; cd ${HOME_DIR}
 # append DRFAS to log4j.properties in hbase
 wget https://raw.githubusercontent.com/QingCloudAppcenter/HBase/master/src/add_log4j.properties

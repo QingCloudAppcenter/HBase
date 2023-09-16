@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 #/**
 # * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,21 +20,21 @@
 
 # Set environment variables here.
 
-export HBASE_HOME=/opt/hbase
-export HBASE_CONF_PATH=/opt/hbase/conf
-export HADOOP_HOME=/opt/hadoop
-export JAVA_LIBRARY_PATH=$HADOOP_HOME/lib/native
-export HBASE_LIBRARY_PATH=$HBASE_LIBRARY_PATH:$JAVA_LIBRARY_PATH
-
 # This script sets variables multiple times over the course of starting an hbase process,
 # so try to keep things idempotent unless you want to take an even deeper look
 # into the startup scripts (bin/hbase, etc.)
 
-# The java implementation to use.  Java 1.7+ required.
-# export JAVA_HOME=/usr/java/jdk1.6.0/
+# The java implementation to use.  Java 1.8+ required.
+export JAVA_HOME=/usr/jdk
+
+export HADOOP_HOME=/opt/hadoop
+export HBASE_HOME=/opt/hbase
+export HADOOP_CONF_DIR=${HBASE_HOME}/conf
+
 
 # Extra Java CLASSPATH elements.  Optional.
-# export HBASE_CLASSPATH=
+export HBASE_CLASSPATH=/opt/hadoop/share/hadoop/common/lib/*:/opt/hadoop/share/hadoop/common/*:/opt/hadoop/share/hadoop/hdfs:/opt/hadoop/share/hadoop/hdfs/lib/*:/opt/hadoop/share/hadoop/hdfs/*
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/hadoop/lib/native/
 
 # The maximum amount of heap to use. Default is left to JVM default.
 # export HBASE_HEAPSIZE=1G
@@ -43,14 +44,10 @@ export HBASE_LIBRARY_PATH=$HBASE_LIBRARY_PATH:$JAVA_LIBRARY_PATH
 # export HBASE_OFFHEAPSIZE=1G
 
 # Extra Java runtime options.
-# Below are what we set by default.  May only work with SUN JVM.
-# For more on why as well as other possible settings,
-# see http://wiki.apache.org/hadoop/PerformanceTuning
+# Default settings are applied according to the detected JVM version. Override these default
+# settings by specifying a value here. For more details on possible settings,
+# see http://hbase.apache.org/book.html#_jvm_tuning
 export HBASE_OPTS="-XX:+UseConcMarkSweepGC"
-
-# Configure PermSize. Only needed in JDK7. You can safely remove it for JDK8+
-export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"
-export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:MaxPermSize=128m"
 
 # Uncomment one of the below three options to enable java garbage collection logging for the server-side processes.
 
@@ -115,6 +112,7 @@ export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:M
 # export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8071"
 # export HBASE_THRIFT_OPTS="$HBASE_THRIFT_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8072"
 # export HBASE_ZOOKEEPER_OPTS="$HBASE_ZOOKEEPER_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8073"
+# export HBASE_REST_OPTS="$HBASE_REST_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8074"
 
 # A string representing this instance of hbase. $USER by default.
 # export HBASE_IDENT_STRING=$USER
@@ -130,8 +128,8 @@ export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:M
 # otherwise arrive faster than the master can service them.
 # export HBASE_SLAVE_SLEEP=0.1
 
-# Tell HBase whether it should manage it's own instance of Zookeeper or not.
-# export HBASE_MANAGES_ZK=true
+# Tell HBase whether it should manage it's own instance of ZooKeeper or not.
+export HBASE_MANAGES_ZK=false
 
 # The default log rolling policy is RFA, where the log file is rolled as per the size defined for the
 # RFA appender. Please refer to the log4j.properties file to see more details on this appender.
@@ -141,3 +139,11 @@ export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -XX:PermSize=128m -XX:M
 # HBASE_ROOT_LOGGER=INFO,DRFA
 # The reason for changing default to RFA is to avoid the boundary case of filling out disk space as
 # DRFA doesn't put any cap on the log size. Please refer to HBase-5655 for more context.
+
+# Tell HBase whether it should include Hadoop's lib when start up,
+# the default value is false,means that includes Hadoop's lib.
+export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP="true"
+
+# Override text processing tools for use by these launch scripts.
+export GREP="${GREP-grep}"
+export SED="${SED-sed}"
