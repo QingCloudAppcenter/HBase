@@ -27,7 +27,7 @@
             "filesystem": "ext4"
         },
         "instance_class": {{cluster.hbase-client.instance_class}},
-        "passphraseless": "ssh-dsa",
+        "passphraseless": "ssh-rsa",
         "advanced_actions": ["change_vxnet", "scale_horizontal"],
         "services": {
             "start": {
@@ -60,7 +60,7 @@
             "filesystem": "ext4"
         },
         "instance_class": {{cluster.hbase-master.instance_class}},
-        "passphraseless": "ssh-dsa",
+        "passphraseless": "ssh-rsa",
         "advanced_actions": ["change_vxnet"],
         "services": {
             "start": {
@@ -129,7 +129,7 @@
             "filesystem": "ext4"
         },
         "instance_class": {{cluster.hbase-hdfs-master.instance_class}},
-        "passphraseless":"ssh-dsa",
+        "passphraseless": "ssh-rsa",
         "advanced_actions": ["change_vxnet"],
         "services": {
             "init": {
