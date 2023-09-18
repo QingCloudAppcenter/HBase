@@ -80,11 +80,11 @@
                 "order": 2,
                 "cmd": "USER=root /usr/bin/python /opt/hadoop/sbin/destroy.py"
             },
-            "restart_rs": {
+            "Restart HBase": {
                 "type": "custom",
-                "cmd": "USER=root /opt/hbase/bin/rolling-restart.sh --rs-only",
+                "cmd": "USER=root /opt/hbase/bin/restart-hbase.sh",
                 "nodes_to_execute_on": 1,
-                "timeout": 180
+                "timeout": 1800
             }
         },
         "health_check": {
