@@ -540,6 +540,25 @@
           "required":"no"
         }
       ]
+    }, {
+      "key": "service_params",
+      "description": "Custom service configuration properties",
+      "type": "array",
+      "properties": [{
+        "key": "hbase-hdfs-master",
+        "description": "Custom service the role (hbase-hdfs-master) configuration properties",
+        "type": "array",
+        "properties": [{
+          "key": "balancer-threshold",
+          "label": "threshold",
+          "description": "Threshold of the disk usage. This value ensures that the disk usage on each DataNode differs from the overall usage in the cluster by no more than it.",
+          "type": "integer",
+          "min": 1,
+          "max": 99,
+          "default": 10,
+          "required": "yes"
+        }]
+      }]
     }
   ]
 }

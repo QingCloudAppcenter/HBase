@@ -156,6 +156,15 @@
             "destroy": {
                 "order": 1,
                 "cmd": "USER=root /usr/bin/python /opt/hadoop/sbin/destroy.py"
+            },
+            "HDFS Balancer": {
+                "type": "custom",
+                "cmd": "USER=root /opt/hadoop/sbin/hdfs-balancer.sh",
+                "nodes_to_execute_on": 1,
+                "timeout": 600,
+                "service_params": {
+                   "threshold": {{service_params.hbase-hdfs-master.balancer-threshold}}
+                }
             }
         },
         "health_check": {
