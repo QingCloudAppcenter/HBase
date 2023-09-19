@@ -441,6 +441,15 @@
           "required":"no"
         },
         {
+          "key": "hbase.ipc.server.max.callqueue.size",
+          "label": "hbase.ipc.server.max.callqueue.size",
+          "description": "Maximum size in bytes of the currently queued and running Calls. If a new Call puts us over this size, then we will reject the call (after parsing it though). It will go back to the client and client will retry.",
+          "type": "number",
+          "min": 0,
+          "default": 1073741824,
+          "required":"no"
+        },
+        {
           "key": "hbase.regionserver.msginterval",
           "label": "hbase.regionserver.msginterval",
           "description": "Interval between messages from the RegionServer to Master in milliseconds.",

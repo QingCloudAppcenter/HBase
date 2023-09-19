@@ -43,6 +43,7 @@
   "Factor to determine the number of call queues. A value of 0 means a single queue shared between all the handlers. A value of 1 means that each handler has its own queue.": "调用队列个数因子，设为0表示所有的handler共用一个队列，设为1表示每个handler拥有自己的队列。",
   "Split the call queues into read and write queues. The specified interval (which should be between 0.0 and 1.0) will be multiplied by the number of call queues.": "调用 read 请求队列个数因子，设为0表示不去分读写请求的队列，小于0.5表示读请求队列少于写请求队列，设为1表示只有1个写请求队列,其他都是读请求。",
   "Given the number of read call queues, calculated from the total number of call queues multiplied by the callqueue.read.ratio, the scan.ratio property will split the read call queues into small-read and long-read queues.": "调用 scan 请求队列个数因子，设为0和1表示在读请求队列中不区分 long-read 和 small-read, 小于0.5表示 long-read 数小于 small-read 数。",
+  "Maximum size in bytes of the currently queued and running Calls. If a new Call puts us over this size, then we will reject the call (after parsing it though). It will go back to the client and client will retry.": "当前排队和运行的调用的最大字节数，如果新的调用使我们超出了这个值，那么我们将拒绝该调用（在解析后），它将返回给客户端，客户端将进行重试。",
   "Interval between messages from the RegionServer to Master in milliseconds.": "ResionServer 给 Master 发送消息的时间间隔，心跳间隔。",
   "Period at which we will roll the commit log regardless of how many edits it has.": "HBase 预写log（WAL） roll 的时间间隔，便于后期删除过期 log。",
   "Limit for the number of regions after which no more region splitting should take place.": "一个 RegionServer 上的 region 数达到这个 limit 后不再 split。",
