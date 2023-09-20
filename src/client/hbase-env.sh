@@ -47,7 +47,7 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/hadoop/lib/native/
 # Default settings are applied according to the detected JVM version. Override these default
 # settings by specifying a value here. For more details on possible settings,
 # see http://hbase.apache.org/book.html#_jvm_tuning
-export HBASE_OPTS="-XX:+UseConcMarkSweepGC"
+# export HBASE_OPTS=""
 
 # Uncomment one of the below three options to enable java garbage collection logging for the server-side processes.
 

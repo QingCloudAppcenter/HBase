@@ -41,7 +41,7 @@ def parse_hbase_stat(role, hjson):
                 stats["slowAppendCount"] = sub_dict["slowAppendCount"]
                 stats["slowPutCount"] = sub_dict["slowPutCount"]
             if "name" in sub_dict and sub_dict["name"] == "Hadoop:service=HBase,name=JvmMetrics":
-                stats["GcTimeMillisConcurrentMarkSweep"] = sub_dict["GcTimeMillisConcurrentMarkSweep"]
+                stats["GcTimeMillis"] = sub_dict["GcTimeMillis"]
         return stats
     elif role == HBASE_HDFS_MASTER:
         for sub_dict in hjson["beans"]:

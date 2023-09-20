@@ -34,33 +34,13 @@ export HADOOP_HOME=/opt/hadoop
 export HBASE_HOME=/opt/hbase
 export HADOOP_CONF_DIR=${HBASE_HOME}/conf
 
-# Where log files are stored.  $HBASE_HOME/logs by default.
-export HBASE_LOG_DIR=/data/hbase/logs
-
 # Extra Java CLASSPATH elements.  Optional.
 export HBASE_CLASSPATH=/opt/hadoop/share/hadoop/common/lib/*:/opt/hadoop/share/hadoop/common/*:/opt/hadoop/share/hadoop/hdfs:/opt/hadoop/share/hadoop/hdfs/lib/*:/opt/hadoop/share/hadoop/hdfs/*
+
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/hadoop/lib/native/
 
 # The maximum amount of heap to use. Default is left to JVM default.
 # export HBASE_HEAPSIZE=1G
-free=$(grep MemFree /proc/meminfo | awk '{print $2}')
-buffer=$(grep Buffers /proc/meminfo | awk '{print $2}')
-cache=$(grep ^Cached /proc/meminfo | awk '{print $2}')
-freemem=$(expr $free + $buffer + $cache)
-total_free=$(expr $freemem / 1024 - 1000)
-if [ $total_free -le 0 ]; then
-    total_free=20
-fi
-role='{{getv "/host/role"}}'
-if [ "x$role" = "xhbase-master" ]
-then
-    half_free=$(expr $total_free / 2)
-    export HBASE_HEAPSIZE=${half_free}m
-    export HBASE_MASTER_OPTS="-Xmx${half_free}m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70"
-else
-    export HBASE_HEAPSIZE=${total_free}m
-    export HBASE_REGIONSERVER_OPTS="-Xmx${total_free}m -Xms${total_free}m -Xmn512m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70"
-fi
 
 # Uncomment below if you intend to use off heap cache. For example, to allocate 8G of
 # offheap, set the value to "8G".
@@ -70,7 +50,7 @@ fi
 # Default settings are applied according to the detected JVM version. Override these default
 # settings by specifying a value here. For more details on possible settings,
 # see http://hbase.apache.org/book.html#_jvm_tuning
-# export HBASE_OPTS
+export HBASE_OPTS="-XX:+UseG1GC"
 
 # Uncomment one of the below three options to enable java garbage collection logging for the server-side processes.
 
@@ -83,7 +63,7 @@ fi
 
 # This enables basic GC logging to its own file with automatic log rolling. Only applies to jdk 1.6.0_34+ and 1.7.0_2+.
 # If FILE-PATH is not replaced, the log file(.gc) would still be generated in the HBASE_LOG_DIR .
-export SERVER_GC_OPTS="-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:${HBASE_LOG_DIR}/hbase-gc.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=256M"
+export SERVER_GC_OPTS="-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=128M"
 
 # Uncomment one of the below three options to enable java garbage collection logging for the client processes.
 
@@ -93,7 +73,6 @@ export SERVER_GC_OPTS="-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -X
 # This enables basic gc logging to its own file.
 # If FILE-PATH is not replaced, the log file(.gc) would still be generated in the HBASE_LOG_DIR .
 # export CLIENT_GC_OPTS="-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:<FILE-PATH>"
-
 
 # This enables basic GC logging to its own file with automatic log rolling. Only applies to jdk 1.6.0_34+ and 1.7.0_2+.
 # If FILE-PATH is not replaced, the log file(.gc) would still be generated in the HBASE_LOG_DIR .
@@ -127,6 +106,9 @@ export SERVER_GC_OPTS="-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -X
 
 # Extra ssh options.  Empty by default.
 # export HBASE_SSH_OPTS="-o ConnectTimeout=1 -o SendEnv=HBASE_CONF_DIR"
+
+# Where log files are stored.  $HBASE_HOME/logs by default.
+export HBASE_LOG_DIR=/data/hbase/logs
 
 # Enable remote JDWP debugging of major HBase processes. Meant for Core Developers
 # export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8070"
