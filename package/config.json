@@ -91,8 +91,8 @@
               "label": "Instance class",
               "description": "The instance type for the cluster to run",
               "type": "integer",
-              "default": 201,
-              "range": [101, 201],
+              "default": 202,
+              "range": [101, 202],
               "required":"yes"
             },
             {
@@ -137,8 +137,8 @@
               "label": "Instance class",
               "description":"The instance type for the cluster to run",
               "type":"integer",
-              "default": 201,
-              "range": [101, 201],
+              "default": 202,
+              "range": [101, 202],
               "required":"yes"
             },
             {
@@ -183,8 +183,8 @@
               "label": "Instance class",
               "description": "The instance type for the cluster to run",
               "type": "integer",
-              "default": 201,
-              "range": [101, 201],
+              "default": 202,
+              "range": [101, 202],
               "required": "yes"
             },
             {
@@ -239,8 +239,8 @@
               "label": "Instance class",
               "description": "The instance type for the cluster to run",
               "type": "integer",
-              "default": 201,
-              "range": [101, 201],
+              "default": 202,
+              "range": [101, 202],
               "required": "yes"
             },
             {
