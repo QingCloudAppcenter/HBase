@@ -296,7 +296,7 @@
         "services": {
             "stop": {
                 "order": 3,
-                "cmd": "USER=root /opt/hbase/bin/hbase-daemon.sh stop regionserver;USER=root /opt/hadoop/sbin/hadoop-daemon.sh stop datanode"
+                "cmd": "USER=root /opt/hbase/bin/hbase-daemon.sh stop regionserver;USER=root /opt/hadoop/bin/hdfs --daemon stop datanode"
             },
             "start": {
                 "order": 3,

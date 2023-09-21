@@ -38,14 +38,14 @@ then
     if [ "x$pid" = "x" ]
     then
         echo "Namenode is not running"
-        USER=root /opt/hadoop/sbin/hadoop-daemon.sh start namenode
+        USER=root /opt/hadoop/sbin/hdfs --daemon start namenode
     fi
 
     pid=`ps aux | grep java | grep SecondaryNameNode | grep -v grep| awk '{print $1}'`
     if [ "x$pid" = "x" ]
     then
         echo "SecondaryNamenode is not running"
-        USER=root /opt/hadoop/sbin/hadoop-daemon.sh start secondarynamenode
+        USER=root /opt/hadoop/sbin/hdfs --daemon start secondarynamenode
     fi
 elif [ "x$role" = "xhbase-slave" ]
 then
@@ -53,7 +53,7 @@ then
     if [ "x$pid" = "x" ]
     then
         echo "Datanode is not running"
-        USER=root /opt/hadoop/sbin/hadoop-daemon.sh start datanode
+        USER=root /opt/hadoop/sbin/hdfs --daemon start datanode
     fi
 
     pid=`ps aux | grep java | grep HRegionServer | grep -v grep| awk '{print $1}'`
