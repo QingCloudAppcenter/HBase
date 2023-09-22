@@ -220,7 +220,7 @@
                     "statistics_type": "latest"
                 },
                 "PercentUsed": {
-                    "unit": "persent",
+                    "unit": "percent",
                     "value_type": "int",
                     "statistics_type": "latest"
                 },
@@ -340,8 +340,8 @@
                     "value_type": "int",
                     "statistics_type": "delta"
                 },
-                "blockCacheHitCountPercent": {
-                    "unit": "persent",
+                "blockCacheCountHitPercent": {
+                    "unit": "percent",
                     "value_type": "int",
                     "statistics_type": "latest",
                     "scale_factor_when_display": 0.01
@@ -381,10 +381,10 @@
                 "RequestCount": ["readRequestCount", "writeRequestCount"],
                 "SlowCount": ["slowDeleteCount", "slowIncrementCount", "slowGetCount", "slowAppendCount", "slowPutCount"],
                 "BLOCKCACHEHITCOUNT": ["blockCacheHitCount"],
-                "BLOCKCACHEHITCOUNTPERCENT": ["blockCacheHitCountPercent"],
+                "BLOCKCACHECOUNTHITPERCENT": ["blockCacheCountHitPercent"],
                 "GCTIMEMILLIS": ["GcTimeMillis"]
             },
-            "display": ["BLOCKCACHEHITCOUNT", "BLOCKCACHEHITCOUNTPERCENT", "RequestCount", "SlowCount", "GCTIMEMILLIS"]
+            "display": ["BLOCKCACHEHITCOUNT", "BLOCKCACHECOUNTHITPERCENT", "RequestCount", "SlowCount", "GCTIMEMILLIS"]
         }
     }],
     "env": {
