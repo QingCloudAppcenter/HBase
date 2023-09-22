@@ -28,23 +28,39 @@ fi
     {{$ip := getv $ip}}
     {{$local_ip := getv "/host/ip"}}
     {{if eq $ip $local_ip}}
+    pid=$(ps ax | grep java | grep RESTServer | grep -v grep| awk '{print $1}')
+    if [ "x$pid" = "x" ];then
       USER=root /opt/hbase/bin/hbase-daemon.sh start rest -p 8000
       if [ $? -ne 0 ];then
         echo "Start Rest failed"
         exit 1
       fi
+    fi
 
+    pid=$(ps ax | grep java | grep ThriftServer | grep -v grep| awk '{print $1}')
+    if [ "x$pid" = "x" ];then
       USER=root /opt/hbase/bin/hbase-daemon.sh start thrift2
       if [ $? -ne 0 ];then
         echo "Start HBase ThriftServer failed"
         exit 1
       fi
+    fi
 
-      USER=root echo balance_switch true | /opt/hbase/bin/hbase shell
-      if [ $? -ne 0 ];then
-        # do not exit 1
-        echo "Start HBase balance_switch failed"
-      fi
+      MAX_ITERATIONS=5
+      current_iteration=1
+      while [ "$current_iteration" -le "$MAX_ITERATIONS" ]
+      do
+        BALANCER_STATE=$(echo 'balancer_enabled' | /opt/hbase/bin/hbase shell -n | tail -1)
+        if [ "x${BALANCER_STATE}" != "xtrue" ]
+        then
+          echo "Switching balancer to true (Iteration $current_iteration)..."
+          echo balance_switch true | /opt/hbase/bin/hbase shell
+        else
+          echo "Balancer is enabled."
+          break
+        fi
+        current_iteration=$((current_iteration + 1))
+      done
 
     {{end}}
   {{end}}

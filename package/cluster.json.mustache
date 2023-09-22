@@ -65,11 +65,11 @@
         "services": {
             "start": {
                 "order": 2,
-                "cmd": "USER=root /opt/hbase/bin/start.sh;echo balance_switch true | /opt/hbase/bin/hbase shell"
+                "cmd": "USER=root /opt/hbase/bin/start.sh"
             },
             "stop": {
                 "order": 1,
-                "cmd": "USER=root echo balance_switch false | /opt/hbase/bin/hbase shell;/opt/hbase/bin/stop.sh"
+                "cmd": "USER=root /opt/hbase/bin/stop.sh"
             },
             "scale_out": {
                 "order": 2,
@@ -82,7 +82,7 @@
             },
             "Restart HBase": {
                 "type": "custom",
-                "cmd": "USER=root /opt/hbase/bin/restart-hbase.sh",
+                "cmd": "USER=root /opt/hbase/bin/stop.sh; USER=root /opt/hbase/bin/start.sh",
                 "nodes_to_execute_on": 1,
                 "timeout": 1800
             }
@@ -143,6 +143,10 @@
             "upgrade": {
                 "order": 1,
                 "cmd": "USER=root /opt/hadoop/sbin/upgrade-hdfs.sh"
+            },
+            "restart": {
+                "order": 1,
+                "cmd": "USER=root /opt/hadoop/sbin/restart.sh"
             },
             "stop": {
                 "order": 2,

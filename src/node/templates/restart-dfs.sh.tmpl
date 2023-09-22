@@ -1,7 +1,7 @@
 #!/bin/sh
 
 role='{{getv "/host/role"}}'
-if [ "x$role" = "xhbase-hdfs-master" ]
+if [ "x$role" != "xhbase-hdfs-master" ]
 then
     exit 0
 fi
