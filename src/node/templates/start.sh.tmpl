@@ -16,6 +16,13 @@ if [ $retry -le 0 ];then
   exit 1
 fi
 
+echo "clean local tmp jars of hbase-regionservers.."
+for regionserver in `cat "/opt/hbase/conf/regionservers"`; do
+  if [ "x${regionserver}" != "x" ]; then
+    ssh "${regionserver}" "rm -rf /data/hbase/tmp/local/jars/tmp"
+  fi
+done
+
 USER=root /opt/hbase/bin/start-hbase.sh
 if [ $? -ne 0 ];then
   echo "Start HBase failed"
