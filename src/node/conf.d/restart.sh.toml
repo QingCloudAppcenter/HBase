@@ -1,0 +1,7 @@
+[template]
+src = "restart.sh.tmpl"
+dest = "/opt/hadoop/sbin/restart.sh"
+mode = "0777"
+keys = [
+  "/",
+]

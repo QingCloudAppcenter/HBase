@@ -120,6 +120,10 @@
     <value>{{getv "/env/hbase.ipc.server.callqueue.scan.ratio"}}</value>
   </property>
   <property>
+    <name>hbase.ipc.server.max.callqueue.size</name>
+    <value>{{getv "/env/hbase.ipc.server.max.callqueue.size"}}</value>
+  </property>
+  <property>
     <name>hbase.regionserver.msginterval</name>
     <value>{{getv "/env/hbase.regionserver.msginterval"}}</value>
   </property>
@@ -155,15 +159,9 @@
     <name>hbase.security.authorization</name>
     <value>{{getv "/env/hbase.security.authorization"}}</value>
   </property>
-  {{if exists "/env/qingcloud.phoenix.on.hbase.enable"}}{{$phoenix := getv "/env/qingcloud.phoenix.on.hbase.enable"}}
-    {{if eq $phoenix "true"}}
   <property>
     <name>phoenix.functions.allowUserDefinedFunctions</name>
-    <value>{{getv "/env/phoenix.functions.allowUserDefinedFunctions"}}</value>
-  </property>
-  <property>
-    <name>phoenix.transactions.enabled</name>
-    <value>{{getv "/env/phoenix.transactions.enabled"}}</value>
+    <value>true</value>
   </property>
   <property>
     <name>hbase.regionserver.wal.codec</name>
@@ -177,10 +175,4 @@
     <name>hbase.rpc.controllerfactory.class</name>
     <value>org.apache.hadoop.hbase.ipc.controller.ServerRpcControllerFactory</value>
   </property>
-  <property>
-    <name>data.tx.snapshot.dir</name>
-    <value>/tephra/snapshots</value>
-  </property>
-    {{end}}
-  {{end}}
 </configuration>

@@ -6,7 +6,7 @@
         "zk_service": {{cluster.zk_service}}
     },
     "upgrade_policy": [
-        "appv-y0dunpcc"
+        "appv-getwsqed"
     ],
     "upgrading_policy": "parallel",
     "nodes": [
@@ -15,7 +15,7 @@
         "user_access": true,
         "container": {
             "type": "kvm",
-            "image": "img-hjxv39aq",
+            "image": "img-3ql5xkbu",
             "zone": "pek3"
         },
         "count": {{cluster.hbase-client.count}},
@@ -27,7 +27,7 @@
             "filesystem": "ext4"
         },
         "instance_class": {{cluster.hbase-client.instance_class}},
-        "passphraseless": "ssh-dsa",
+        "passphraseless": "ssh-rsa",
         "advanced_actions": ["change_vxnet", "scale_horizontal"],
         "services": {
             "start": {
@@ -48,7 +48,7 @@
         "role": "hbase-master",
         "container": {
             "type": "lxc",
-            "image": "img-dmtvrcsa",
+            "image": "img-p0u6ns59",
             "zone": "pek3"
         },
         "count": 1,
@@ -60,16 +60,16 @@
             "filesystem": "ext4"
         },
         "instance_class": {{cluster.hbase-master.instance_class}},
-        "passphraseless": "ssh-dsa",
+        "passphraseless": "ssh-rsa",
         "advanced_actions": ["change_vxnet"],
         "services": {
             "start": {
                 "order": 2,
-                "cmd": "USER=root /opt/hbase/bin/start.sh;echo balance_switch true | /opt/hbase/bin/hbase shell"
+                "cmd": "USER=root /opt/hbase/bin/start.sh"
             },
             "stop": {
                 "order": 1,
-                "cmd": "USER=root echo balance_switch false | /opt/hbase/bin/hbase shell;/opt/hbase/bin/stop.sh"
+                "cmd": "USER=root /opt/hbase/bin/stop.sh"
             },
             "scale_out": {
                 "order": 2,
@@ -80,11 +80,11 @@
                 "order": 2,
                 "cmd": "USER=root /usr/bin/python /opt/hadoop/sbin/destroy.py"
             },
-            "restart_rs": {
+            "Restart HBase": {
                 "type": "custom",
-                "cmd": "USER=root /opt/hbase/bin/rolling-restart.sh --rs-only",
+                "cmd": "USER=root /opt/hbase/bin/stop.sh; USER=root /opt/hbase/bin/start.sh",
                 "nodes_to_execute_on": 1,
-                "timeout": 180
+                "timeout": 1800
             }
         },
         "health_check": {
@@ -117,7 +117,7 @@
         "role": "hbase-hdfs-master",
         "container": {
             "type": "lxc",
-            "image": "img-dmtvrcsa",
+            "image": "img-p0u6ns59",
             "zone": "pek3"
         },
         "count": 1,
@@ -129,7 +129,7 @@
             "filesystem": "ext4"
         },
         "instance_class": {{cluster.hbase-hdfs-master.instance_class}},
-        "passphraseless":"ssh-dsa",
+        "passphraseless": "ssh-rsa",
         "advanced_actions": ["change_vxnet"],
         "services": {
             "init": {
@@ -139,6 +139,14 @@
             "start": {
                 "order": 1,
                 "cmd": "USER=root /opt/hadoop/sbin/start-dfs.sh"
+            },
+            "upgrade": {
+                "order": 1,
+                "cmd": "USER=root /opt/hadoop/sbin/upgrade-hdfs.sh"
+            },
+            "restart": {
+                "order": 1,
+                "cmd": "USER=root /opt/hadoop/sbin/restart.sh"
             },
             "stop": {
                 "order": 2,
@@ -156,6 +164,15 @@
             "destroy": {
                 "order": 1,
                 "cmd": "USER=root /usr/bin/python /opt/hadoop/sbin/destroy.py"
+            },
+            "HDFS Balancer": {
+                "type": "custom",
+                "cmd": "USER=root /opt/hadoop/sbin/hdfs-balancer.sh",
+                "nodes_to_execute_on": 1,
+                "timeout": 600,
+                "service_params": {
+                   "threshold": {{service_params.hbase-hdfs-master.balancer-threshold}}
+                }
             }
         },
         "health_check": {
@@ -203,7 +220,7 @@
                     "statistics_type": "latest"
                 },
                 "PercentUsed": {
-                    "unit": "persent",
+                    "unit": "percent",
                     "value_type": "int",
                     "statistics_type": "latest"
                 },
@@ -267,7 +284,7 @@
         "role": "hbase-slave",
         "container": {
             "type": "lxc",
-            "image": "img-dmtvrcsa",
+            "image": "img-p0u6ns59",
             "zone": "pek3"
         },
 	    "instance_class": {{cluster.hbase-slave.instance_class}},
@@ -283,11 +300,11 @@
         "services": {
             "stop": {
                 "order": 3,
-                "cmd": "USER=root /opt/hbase/bin/hbase-daemon.sh stop regionserver;USER=root /opt/hadoop/sbin/hadoop-daemon.sh stop datanode"
+                "cmd": "USER=root /opt/hbase/bin/hbase-daemon.sh stop regionserver;USER=root /opt/hadoop/bin/hdfs --daemon stop datanode"
             },
             "start": {
                 "order": 3,
-                "cmd": "USER=root /opt/hadoop/sbin/start-hadoop-slave.sh;USER=root /opt/hbase/bin/start-regionserver.sh"
+                "cmd": "USER=root /opt/hadoop/sbin/start-hadoop-worker.sh;USER=root /opt/hbase/bin/start-regionserver.sh"
             },
             "destroy": {
                 "order": 3,
@@ -323,8 +340,8 @@
                     "value_type": "int",
                     "statistics_type": "delta"
                 },
-                "blockCacheHitCountPercent": {
-                    "unit": "persent",
+                "blockCacheCountHitPercent": {
+                    "unit": "percent",
                     "value_type": "int",
                     "statistics_type": "latest",
                     "scale_factor_when_display": 0.01
@@ -354,7 +371,7 @@
                     "value_type": "int",
                     "statistics_type": "delta"
                 },
-                "GcTimeMillisConcurrentMarkSweep": {
+                "GcTimeMillis": {
                     "unit": "ms",
                     "value_type": "int",
                     "statistics_type": "delta"
@@ -364,10 +381,10 @@
                 "RequestCount": ["readRequestCount", "writeRequestCount"],
                 "SlowCount": ["slowDeleteCount", "slowIncrementCount", "slowGetCount", "slowAppendCount", "slowPutCount"],
                 "BLOCKCACHEHITCOUNT": ["blockCacheHitCount"],
-                "BLOCKCACHEHITCOUNTPERCENT": ["blockCacheHitCountPercent"],
-                "GCTIMEMILLISCONCURRENTMARKSWEEP": ["GcTimeMillisConcurrentMarkSweep"]
+                "BLOCKCACHECOUNTHITPERCENT": ["blockCacheCountHitPercent"],
+                "GCTIMEMILLIS": ["GcTimeMillis"]
             },
-            "display": ["BLOCKCACHEHITCOUNT", "BLOCKCACHEHITCOUNTPERCENT", "RequestCount", "SlowCount", "GCTIMEMILLISCONCURRENTMARKSWEEP"]
+            "display": ["BLOCKCACHEHITCOUNT", "BLOCKCACHECOUNTHITPERCENT", "RequestCount", "SlowCount", "GCTIMEMILLIS"]
         }
     }],
     "env": {
@@ -389,6 +406,7 @@
         "hbase.ipc.server.callqueue.handler.factor": {{env.hbase.ipc.server.callqueue.handler.factor}},
         "hbase.ipc.server.callqueue.read.ratio": {{env.hbase.ipc.server.callqueue.read.ratio}},
         "hbase.ipc.server.callqueue.scan.ratio": {{env.hbase.ipc.server.callqueue.scan.ratio}},
+        "hbase.ipc.server.max.callqueue.size": {{env.hbase.ipc.server.max.callqueue.size}},
         "hbase.regionserver.msginterval": {{env.hbase.regionserver.msginterval}},
         "hbase.regionserver.logroll.period": {{env.hbase.regionserver.logroll.period}},
         "hbase.regionserver.regionSplitLimit": {{env.hbase.regionserver.regionSplitLimit}},
@@ -398,10 +416,7 @@
         "hbase.rpc.timeout": {{env.hbase.rpc.timeout}},
         "hbase.column.max.version": {{env.hbase.column.max.version}},
         "hbase.security.authorization": {{env.hbase.security.authorization}},
-        "qingcloud.hbase.major.compact.hour": {{env.qingcloud.hbase.major.compact.hour}},
-        "qingcloud.phoenix.on.hbase.enable": {{env.qingcloud.phoenix.on.hbase.enable}},
-        "phoenix.functions.allowUserDefinedFunctions": {{env.phoenix.functions.allowUserDefinedFunctions}},
-        "phoenix.transactions.enabled": {{env.phoenix.transactions.enabled}}
+        "qingcloud.hbase.major.compact.hour": {{env.qingcloud.hbase.major.compact.hour}}
     },
     "endpoints": {
         "rest_port": {

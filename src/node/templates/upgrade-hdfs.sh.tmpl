@@ -1,0 +1,44 @@
+#!/bin/bash
+
+role='{{getv "/host/role"}}'
+if [ "x$role" != "xhbase-hdfs-master" ]
+then
+    echo "The role is not hdfs-master, exit."
+    exit 0
+fi
+
+HADOOP_HOME=/opt/hadoop
+echo "Start dfs with upgrade.."
+${HADOOP_HOME}/sbin/start-dfs.sh -upgrade
+
+echo "Waiting datanode ready.."
+HEALTHY_STR="Uptime:"
+TIMEOUT=3600
+SECONDS=0
+ALL_WORKERS_HEALTHY=0
+while [ $ALL_WORKERS_HEALTHY -eq 0 ] && [ $SECONDS -lt $TIMEOUT ]; do
+  sleep 10
+  SECONDS=$((SECONDS + 10))
+
+  while read worker || [[ -n ${worker} ]]; do
+    if [ "x$worker" = "x" ]; then
+      continue
+    fi
+
+    output=$(${HADOOP_HOME}/bin/hdfs dfsadmin -getDatanodeInfo "${worker}:9867")
+    if [[ ${output} != ${HEALTHY_STR}* ]]; then
+      echo "Datanode ${worker} not ready."
+      break
+    fi
+  done < ${HADOOP_HOME}/etc/hadoop/workers
+
+  ALL_WORKERS_HEALTHY=1
+done
+
+if [ $ALL_WORKERS_HEALTHY -eq 0 ]; then
+    echo "There are some datanodes not ready."
+    exit 1
+fi
+
+echo "Waiting datanode ready.."
+${HADOOP_HOME}/bin/hdfs dfsadmin -finalizeUpgrade

@@ -36,17 +36,24 @@ else
     cp conf.d/* /etc/confd/conf.d/
     cp templates/* /etc/confd/templates/
     cp exclude-node.sh /opt/hadoop/sbin/exclude-node.sh
-    cp reload-hdfs-site.sh /opt/hbase/bin/reload-hdfs-site.sh
     cp refresh-nodes.sh /opt/hadoop/sbin/refresh-nodes.sh
+    cp start-hadoop-worker.sh /opt/hadoop/sbin/start-hadoop-worker.sh
+    cp hdfs-balancer.sh /opt/hadoop/sbin/hdfs-balancer.sh
+    cp reload-hdfs-site.sh /opt/hbase/bin/reload-hdfs-site.sh
     cp restart-hbase.sh /opt/hbase/bin/restart-hbase.sh
-    cp start-hadoop-slave.sh /opt/hadoop/sbin/start-hadoop-slave.sh
     cp start-regionserver.sh /opt/hbase/bin/start-regionserver.sh
     cp stop.sh /opt/hbase/bin/stop.sh
-    cp tephra-env.sh /opt/hbase/bin/tephra-env.sh
+
+    cat node_profile >> /etc/profile
+    cat node_profile >> /root/.bashrc
 
     cd ../scripts
     cat forbidden_ports >> /etc/sysctl.conf
 fi
+
+chmod +x /opt/hadoop/sbin/*.sh
+chmod +x /opt/hbase/bin/*.sh
+
 
 cd ${HOME_DIR}
 rm -rf HBase-${VERSION}; rm -rf ${VERSION}.tar.gz
