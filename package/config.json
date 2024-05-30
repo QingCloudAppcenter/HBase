@@ -91,8 +91,8 @@
               "label": "Instance class",
               "description": "The instance type for the cluster to run",
               "type": "integer",
-              "default": 201,
-              "range": [101, 201],
+              "default": 202,
+              "range": [101, 202],
               "required":"yes"
             },
             {
@@ -137,8 +137,8 @@
               "label": "Instance class",
               "description":"The instance type for the cluster to run",
               "type":"integer",
-              "default": 201,
-              "range": [101, 201],
+              "default": 202,
+              "range": [101, 202],
               "required":"yes"
             },
             {
@@ -183,8 +183,8 @@
               "label": "Instance class",
               "description": "The instance type for the cluster to run",
               "type": "integer",
-              "default": 201,
-              "range": [101, 201],
+              "default": 202,
+              "range": [101, 202],
               "required": "yes"
             },
             {
@@ -239,8 +239,8 @@
               "label": "Instance class",
               "description": "The instance type for the cluster to run",
               "type": "integer",
-              "default": 201,
-              "range": [101, 201],
+              "default": 202,
+              "range": [101, 202],
               "required": "yes"
             },
             {
@@ -441,6 +441,15 @@
           "required":"no"
         },
         {
+          "key": "hbase.ipc.server.max.callqueue.size",
+          "label": "hbase.ipc.server.max.callqueue.size",
+          "description": "Maximum size in bytes of the currently queued and running Calls. If a new Call puts us over this size, then we will reject the call (after parsing it though). It will go back to the client and client will retry.",
+          "type": "number",
+          "min": 0,
+          "default": 1073741824,
+          "required":"no"
+        },
+        {
           "key": "hbase.regionserver.msginterval",
           "label": "hbase.regionserver.msginterval",
           "description": "Interval between messages from the RegionServer to Master in milliseconds.",
@@ -538,35 +547,27 @@
           "max": 24,
           "default": 3,
           "required":"no"
-        },
-        {
-          "key": "qingcloud.phoenix.on.hbase.enable",
-          "label": "qingcloud.phoenix.on.hbase.enable",
-          "description": "Enable phoenix on this cluster or not",
-          "type": "string",
-          "default": "false",
-          "range": ["true", "false"],
-          "required":"no"
-        },
-        {
-          "key": "phoenix.functions.allowUserDefinedFunctions",
-          "label": "phoenix.functions.allowUserDefinedFunctions",
-          "description": "Enable phoenix udf or not",
-          "type": "string",
-          "default": "false",
-          "range": ["true", "false"],
-          "required":"no"
-        },
-        {
-          "key": "phoenix.transactions.enabled",
-          "label": "phoenix.transactions.enabled",
-          "description": "Enable phoenix transations or not",
-          "type": "string",
-          "default": "false",
-          "range": ["true", "false"],
-          "required":"no"
         }
       ]
+    }, {
+      "key": "service_params",
+      "description": "Custom service configuration properties",
+      "type": "array",
+      "properties": [{
+        "key": "hbase-hdfs-master",
+        "description": "Custom service the role (hbase-hdfs-master) configuration properties",
+        "type": "array",
+        "properties": [{
+          "key": "balancer-threshold",
+          "label": "threshold",
+          "description": "Threshold of the disk usage. This value ensures that the disk usage on each DataNode differs from the overall usage in the cluster by no more than it.",
+          "type": "integer",
+          "min": 1,
+          "max": 99,
+          "default": 10,
+          "required": "yes"
+        }]
+      }]
     }
   ]
 }

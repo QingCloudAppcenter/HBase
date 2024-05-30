@@ -1,0 +1,22 @@
+#!/bin/bash
+
+role='{{getv "/host/role"}}'
+if [ "x$role" != "xhbase-hdfs-master" ]
+then
+    exit 0
+fi
+
+
+USER=root
+{{range $dir := lsdir "/hosts/hbase-master/"}}{{$ip := printf "/hosts/hbase-master/%s/ip" $dir}}
+HBASE_MASTER_IP={{getv $ip}}{{end}}
+echo "stop all hbase services.."
+ssh ${HBASE_MASTER_IP} "/opt/hbase/bin/stop.sh"
+
+
+echo "restart hdfs services.."
+/opt/hadoop/sbin/restart-dfs.sh
+
+
+echo "start all hbase services.."
+ssh ${HBASE_MASTER_IP} "/opt/hbase/bin/start.sh"

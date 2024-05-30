@@ -4,4 +4,4 @@ dest = "/opt/hadoop/etc/hadoop/hdfs-site.xml.tmp"
 keys = [
   "/",
 ]
-reload_cmd = "cp /opt/hadoop/etc/hadoop/hdfs-site.xml.tmp /opt/hadoop/etc/hadoop/hdfs-site.xml;sh /opt/hbase/bin/reload-hdfs-site.sh;/opt/hadoop/sbin/restart-dfs.sh"
+reload_cmd = "cp /opt/hadoop/etc/hadoop/hdfs-site.xml.tmp /opt/hadoop/etc/hadoop/hdfs-site.xml;sh /opt/hbase/bin/reload-hdfs-site.sh"

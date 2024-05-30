@@ -1,0 +1,7 @@
+[template]
+src = "upgrade-hdfs.sh.tmpl"
+dest = "/opt/hadoop/sbin/upgrade-hdfs.sh"
+mode = "0777"
+keys = [
+  "/",
+]

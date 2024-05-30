@@ -32,9 +32,3 @@ if [ $? -ne 0 ];then
   # do not exit 1
   echo "Thrift2 has already been stopped"
 fi
-
-USER=root /opt/hbase/bin/tephra stop
-if [ $? -ne 0 ];then
-  # do not exit 1
-  echo "HBase phoenix tephra has already been stopped"
-fi

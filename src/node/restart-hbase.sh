@@ -29,4 +29,11 @@ then
   kill -9 $pid
 fi
 
+# clean local jars of hbase-regionservers..
+for regionserver in `cat "${HBASE_HOME}/conf/regionservers"`; do
+  if [ "x${regionserver}" != "x" ]; then
+    ssh "${regionserver}" "rm /data/hbase/tmp/local/jars/*.jar"
+  fi
+done
+
 USER=root /opt/hbase/bin/start.sh
