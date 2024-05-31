@@ -107,5 +107,6 @@
   "32C64G": "32核64G",
   "err_code1": "禁止同时删除多个从节点",
   "Threshold of the disk usage. This value ensures that the disk usage on each DataNode differs from the overall usage in the cluster by no more than it.": "磁盘使用的阈值，该值确保每个 DataNode 的磁盘使用不会与集群的整体使用差异超过它。",
-  "Restart HBase": "重启 HBase"
+  "Restart HBase": "重启 HBase",
+  "External hosts out of current cluster; Delimiter of item is ' ', and delimiter of items is ',', eg: ip1 hostname1,ip2 hostname2,...": "集群外部的 hosts，每个 host 用空格分隔 IP 和域名，多个 host 用逗号分隔"
 }

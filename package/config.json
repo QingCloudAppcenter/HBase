@@ -547,6 +547,14 @@
           "max": 24,
           "default": 3,
           "required":"no"
+        },
+        {
+          "key": "external.hosts",
+          "label": "external.hosts",
+          "description": "External hosts out of current cluster; Delimiter of item is ' ', and delimiter of items is ',', eg: ip1 hostname1,ip2 hostname2,...",
+          "default": "",
+          "type": "string",
+          "required":"no"
         }
       ]
     }, {

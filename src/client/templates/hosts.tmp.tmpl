@@ -8,3 +8,5 @@
 {{getv $ip}} {{getv $node}}{{end}}
 {{range $dir := lsdir "/hosts/hbase-slave/"}}{{$ip := printf "/hosts/hbase-slave/%s/ip" $dir}}{{$node := printf "/hosts/hbase-slave/%s/node_id" $dir}}
 {{getv $ip}} {{getv $node}}{{end}}
+{{range $hostname := (split (getv "/env/external.hosts") ";")}}
+{{$hostname}}{{end}}
