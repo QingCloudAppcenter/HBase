@@ -175,4 +175,14 @@
     <name>hbase.rpc.controllerfactory.class</name>
     <value>org.apache.hadoop.hbase.ipc.controller.ServerRpcControllerFactory</value>
   </property>
+
+
+  <!-- custom configurations -->
+  {{range $confItem := (split (getv "/env/hbase.sites") ";")}}{{if ne $confItem ""}}{{$confs := split $confItem "="}}
+  <property>
+    <name>{{index $confs 0}}</name>
+    <value>{{index $confs 1}}</value>
+  </property>
+  {{end}}{{end}}
+
 </configuration>

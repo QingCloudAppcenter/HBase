@@ -547,6 +547,38 @@
           "max": 24,
           "default": 3,
           "required":"no"
+        },
+        {
+          "key": "hbase.envs",
+          "label": "hbase-env.sh",
+          "description": "The custom configurations in the hbase-env.sh; Delimiter is ';'",
+          "default": "",
+          "type": "string",
+          "required":"no"
+        },
+        {
+          "key": "hbase.sites",
+          "label": "hbase-site.xml",
+          "description": "The custom configurations in hbase-site.xml, most configuration items can be found and must be configured above; The format is name=value, and delimiter is ';'",
+          "default": "",
+          "type": "string",
+          "required":"no"
+        },
+        {
+          "key": "hadoop.metrics2.hbase",
+          "label": "hadoop-metrics2-hbase.properties",
+          "description": "The custom configurations in the hadoop-metrics2-hbase.properties; Delimiter is ';'",
+          "default": "*.period=10;*.sink.file*.class=org.apache.hadoop.metrics2.sink.FileSink",
+          "type": "string",
+          "required":"yes"
+        },
+        {
+          "key": "external.hosts",
+          "label": "external.hosts",
+          "description": "External hosts out of current cluster; Delimiter of item is ' ', and delimiter of items is ';', eg: ip1 hostname1;ip2 hostname2;...",
+          "default": "",
+          "type": "string",
+          "required":"no"
         }
       ]
     }, {

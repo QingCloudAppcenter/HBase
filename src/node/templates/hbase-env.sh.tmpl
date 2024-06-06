@@ -116,22 +116,6 @@ export HBASE_LOG_DIR=/data/hbase/logs
 # export HBASE_THRIFT_OPTS="$HBASE_THRIFT_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8072"
 # export HBASE_ZOOKEEPER_OPTS="$HBASE_ZOOKEEPER_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8073"
 # export HBASE_REST_OPTS="$HBASE_REST_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8074"
-free=$(grep MemFree /proc/meminfo | awk '{print $2}')
-buffer=$(grep Buffers /proc/meminfo | awk '{print $2}')
-cache=$(grep ^Cached /proc/meminfo | awk '{print $2}')
-freemem=$(expr $free + $buffer + $cache)
-total_free=$(expr $freemem / 1024 - 1000)
-if [ $total_free -le 0 ]; then
-    total_free=20
-fi
-role='{{getv "/host/role"}}'
-if [ "x$role" = "xhbase-master" ]
-then
-    half_free=$(expr $total_free / 2)
-    export HBASE_MASTER_OPTS="-Xmx${half_free}m -Xms${half_free}m -Xloggc:${HBASE_LOG_DIR}/gc-master.log"
-else
-    export HBASE_REGIONSERVER_OPTS="-Xmx${total_free}m -Xms${total_free}m -Xloggc:${HBASE_LOG_DIR}/gc-regionserver.log"
-fi
 
 # A string representing this instance of hbase. $USER by default.
 # export HBASE_IDENT_STRING=$USER
@@ -167,3 +151,27 @@ export HBASE_DISABLE_HADOOP_CLASSPATH_LOOKUP="true"
 # Override text processing tools for use by these launch scripts.
 # export GREP="${GREP-grep}"
 # export SED="${SED-sed}"
+
+
+# custom configurations
+{{range $confItem := (split (getv "/env/hbase.envs") ";")}}
+{{$confItem}}
+{{end}}
+
+
+free=$(grep MemFree /proc/meminfo | awk '{print $2}')
+buffer=$(grep Buffers /proc/meminfo | awk '{print $2}')
+cache=$(grep ^Cached /proc/meminfo | awk '{print $2}')
+freemem=$(expr $free + $buffer + $cache)
+total_free=$(expr $freemem / 1024 - 1000)
+if [ $total_free -le 0 ]; then
+    total_free=20
+fi
+role='{{getv "/host/role"}}'
+if [ "x$role" = "xhbase-master" ]
+then
+    half_free=$(expr $total_free / 2)
+    export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -Xmx${half_free}m -Xms${half_free}m -Xloggc:${HBASE_LOG_DIR}/gc-master.log"
+else
+    export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -Xmx${total_free}m -Xms${total_free}m -Xloggc:${HBASE_LOG_DIR}/gc-regionserver.log"
+fi

@@ -6,7 +6,8 @@
         "zk_service": {{cluster.zk_service}}
     },
     "upgrade_policy": [
-        "appv-getwsqed"
+        "appv-getwsqed",
+        "appv-bo6fom5k"
     ],
     "upgrading_policy": "parallel",
     "nodes": [
@@ -15,7 +16,7 @@
         "user_access": true,
         "container": {
             "type": "kvm",
-            "image": "img-3ql5xkbu",
+            "image": "img-teg650hk",
             "zone": "pek3"
         },
         "count": {{cluster.hbase-client.count}},
@@ -48,7 +49,7 @@
         "role": "hbase-master",
         "container": {
             "type": "lxc",
-            "image": "img-p0u6ns59",
+            "image": "img-1vvpyfn1",
             "zone": "pek3"
         },
         "count": 1,
@@ -117,7 +118,7 @@
         "role": "hbase-hdfs-master",
         "container": {
             "type": "lxc",
-            "image": "img-p0u6ns59",
+            "image": "img-1vvpyfn1",
             "zone": "pek3"
         },
         "count": 1,
@@ -284,7 +285,7 @@
         "role": "hbase-slave",
         "container": {
             "type": "lxc",
-            "image": "img-p0u6ns59",
+            "image": "img-1vvpyfn1",
             "zone": "pek3"
         },
 	    "instance_class": {{cluster.hbase-slave.instance_class}},
@@ -416,7 +417,11 @@
         "hbase.rpc.timeout": {{env.hbase.rpc.timeout}},
         "hbase.column.max.version": {{env.hbase.column.max.version}},
         "hbase.security.authorization": {{env.hbase.security.authorization}},
-        "qingcloud.hbase.major.compact.hour": {{env.qingcloud.hbase.major.compact.hour}}
+        "qingcloud.hbase.major.compact.hour": {{env.qingcloud.hbase.major.compact.hour}},
+        "external.hosts": {{env.external.hosts}},
+        "hbase.envs": {{env.hbase.envs}},
+        "hbase.sites": {{env.hbase.sites}},
+        "hadoop.metrics2.hbase": {{env.hadoop.metrics2.hbase}}
     },
     "endpoints": {
         "rest_port": {

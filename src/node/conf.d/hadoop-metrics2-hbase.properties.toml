@@ -1,0 +1,6 @@
+[template]
+src = "hadoop-metrics2-hbase.properties.tmpl"
+dest = "/opt/hbase/conf/hadoop-metrics2-hbase.properties"
+keys = [
+  "/env/hadoop.metrics2.hbase",
+]
