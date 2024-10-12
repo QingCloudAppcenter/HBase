@@ -107,5 +107,9 @@
   "32C64G": "32核64G",
   "err_code1": "禁止同时删除多个从节点",
   "Threshold of the disk usage. This value ensures that the disk usage on each DataNode differs from the overall usage in the cluster by no more than it.": "磁盘使用的阈值，该值确保每个 DataNode 的磁盘使用不会与集群的整体使用差异超过它。",
-  "Restart HBase": "重启 HBase"
+  "Restart HBase": "重启 HBase",
+  "External hosts out of current cluster; Delimiter of item is ' ', and delimiter of items is ';', eg: ip1 hostname1;ip2 hostname2;...": "集群外部的 hosts，用 ' ' 分隔 IP 和域名，用 , 分隔多个 hosts ",
+  "The custom configurations in hbase-env.sh; Delimiter is ';'": "hbase-env.sh 中自定义配置，用 ; 分隔各个配置项",
+  "The custom configurations in hbase-site.xml, most configuration items can be found and must be configured above; The format is name=value, and delimiter is ';'": "hbase-site.xml 中自定义配置，绝大多数配置可以在上面找到且只能在上面配置；格式是 name=value，用 ; 分隔各个配置项",
+  "The custom configurations in the hadoop-metrics2-hbase.properties; Delimiter is ';'": "hadoop-metrics2-hbase.properties 中自定义配置，用 ; 分隔各个配置项"
 }
